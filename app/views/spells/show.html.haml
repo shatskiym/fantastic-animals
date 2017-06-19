@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Type:
+  = @spell.type
+%p
+  %b Characteristic:
+  = @spell.characteristic
+
+= link_to 'Edit', edit_spell_path(@spell)
+\|
+= link_to 'Back', spells_path

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Element:
+  = @terrain.element
+%p
+  %b Difficult:
+  = @terrain.difficult
+
+= link_to 'Edit', edit_terrain_path(@terrain)
+\|
+= link_to 'Back', terrains_path

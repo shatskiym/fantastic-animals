@@ -1,0 +1,23 @@
+%h1 Listing spells
+
+%table.table
+  %thead
+    %tr
+      %th Type
+      %th Characteristic
+      %th
+      %th
+      %th
+
+  %tbody
+    - @spells.each do |spell|
+      %tr
+        %td= spell.type
+        %td= spell.characteristic
+        %td= link_to 'Show', spell
+        %td= link_to 'Edit', edit_spell_path(spell)
+        %td= link_to 'Destroy', spell, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Spell', new_spell_path

@@ -1,0 +1,16 @@
+= form_for @terrain do |f|
+  - if @terrain.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@terrain.errors.count, "error")} prohibited this terrain from being saved:"
+      %ul
+        - @terrain.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :element
+    = f.text_field :element
+  .field
+    = f.label :difficult
+    = f.number_field :difficult
+  .actions
+    = f.submit 'Save'
