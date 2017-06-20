@@ -3,6 +3,10 @@ class TerrainsController < ApplicationController
 
   # GET /terrains
   # GET /terrains.json
+  def field_terrain
+    @terrains = Terrains.all
+  end
+
   def index
     @terrains = Terrain.all
   end
