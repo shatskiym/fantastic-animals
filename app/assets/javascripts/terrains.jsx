@@ -14,18 +14,20 @@ var Terrains = React.createClass({
     }
   },
   render: function() {
+    var terrs = [], i = 0, len = 54;
+    while (++i <= len) terrs.push(this.state.terrains[Math.floor(Math.random() * this.state.terrains.length)]);
     return (
       <div className='terrains'>
-        <h2 className='title'>
-          Terrains
+        <h2 className='field-title'>
+          Field
         </h2>
-        <div className = 'terrainsContainer'>
+        <div className = 'terrains-container'>
           {
-            this.state.terrains.map(function(el){
+            terrs.map( function(terr,val) {
               return <Terrain
-                      tType = {el.element}
-                      key = {el.id}
-                      tDiff = {el.difficult}/>;
+                      tType = {terr.element}
+                      key = {val}
+                      tDiff = {terr.difficult}/>;
             })
           }
         </div>
@@ -37,11 +39,11 @@ var Terrains = React.createClass({
 var Terrain = React.createClass({
   render: function() {
     return (
-      <div className='terrainContainer'>
-        <div className='terrainType'>
+      <div className={'terrain-container ' + this.props.tType}>
+        <div className='terrain-type'>
           {this.props.tType}
         </div>
-        <div className='terrainDifficult'>
+        <div className='terrain-difficult'>
           {this.props.tDiff}
         </div>
       </div>

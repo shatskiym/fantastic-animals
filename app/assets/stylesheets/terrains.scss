@@ -1,3 +1,36 @@
 // Place all the styles related to the Terrains controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.terrains-container {
+  margin: 10px 10px;
+  height: 600px;
+}
+
+.field-title {
+  text-align: center;
+}
+
+.terrain-container {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+}
+
+.water {
+  background-color: blue;
+}
+
+.wood {
+  background-color: green;
+}
+
+.mountain {
+  background-color: gray;
+}
+
+.terrain-difficult {
+  margin-top: 60px;
+  text-align: right;
+  margin-right: 5px;
+}
