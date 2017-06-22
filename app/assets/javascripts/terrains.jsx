@@ -50,14 +50,3 @@ var Terrain = React.createClass({
     )
   }
 });
-
-var DataField = React.createClass({
-  render: function() {
-    return (
-      <div className='data-field-container'>
-        <div className='selected-terrain'>
-        <div>
-      </div>
-    )
-  }
-});
