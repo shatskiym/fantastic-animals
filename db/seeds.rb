@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+puts 'Create terrains'
+
+3.times do |i|
+  Terrain.create(element: 'wood', difficult: i+1)
+  Terrain.create(element: 'water', difficult: i+1)
+  Terrain.create(element: 'mountain', difficult: i+1)
+end
