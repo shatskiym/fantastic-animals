@@ -41,7 +41,9 @@ var Terrains = React.createClass({
 
 var Terrain = React.createClass({
   handleClick: function() {
-    this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
+    if (this.props.changeSelectedTerrain){
+      this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
+    }
   },
   render: function() {
     return (
