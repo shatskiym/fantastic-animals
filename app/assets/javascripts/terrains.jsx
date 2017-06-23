@@ -2,26 +2,6 @@
 // # All this logic will automatically be available in application.js.
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
-var Board = React.createClass({
-  getInitialState: function() {
-    return {
-      clickedType: 'none',
-      isFirstRender: true
-    }
-  },
-  changeClickedType: function(type) {
-    this.setState({
-      clickedType: type,
-      isFirstRender: false
-    });
-  },
-  render: function() {
-    return (
-      <Terrains data={this.props.data} changeType={this.changeClickedType} firstTime={this.state.isFirstRender}></Terrains>
-    )
-  }
-});
-
 var Terrains = React.createClass({
   terrs: [],
   getDefaultProps: function() {
@@ -67,18 +47,56 @@ var Terrains = React.createClass({
 });
 
 var Terrain = React.createClass({
-  changeType: function() {
-    this.props.changeType(this.props.tType)
+  handleClick: function() {
+    this.props.changeType(this.props.tType, this.props.tDiff)
   },
   render: function() {
     return (
-      <div className={'terrain-container ' + this.props.tType} onClick={this.changeType}>
+      <div className={'terrain-container ' + this.props.tType} onClick={this.handleClick}>
         <div className='terrain-type'>
           {this.props.tType}
         </div>
         <div className='terrain-difficult'>
           {this.props.tDiff}
         </div>
+      </div>
+    )
+  }
+});
+
+var InfoBoard = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <Terrain
+          tType = {this.props.type}
+          tDiff = {this.props.diff}
+        />
+      </div>
+    )
+  }
+});
+
+var Board = React.createClass({
+  getInitialState: function() {
+    return {
+      chosenTerrainType: '?',
+      chosenTerrainDiff: '?',
+      isFirstRender: true
+    }
+  },
+  changeChosenTerrain: function(type, diff) {
+    this.setState({
+      chosenTerrainType: type,
+      chosenTerrainDiff: diff,
+      isFirstRender: false
+    });
+  },
+  render: function() {
+    return (
+      <div>
+        <Terrains data={this.props.data} changeType={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
+        <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
       </div>
     )
   }
