@@ -6,6 +6,7 @@
   margin: 10px 10px;
   height: 600px;
   width: 900px;
+  display: inline-block;
 }
 
 .field-title {
@@ -34,4 +35,19 @@
   margin-top: 60px;
   text-align: right;
   margin-right: 5px;
+}
+
+.info-board-container {
+  margin: 10px 10px;
+  display: inline-block;
+  width: 100%;
+  background: antiquewhite;
+}
+
+.board-container {
+  display: flex;
+}
+
+.chosen-field-container {
+  margin: 5px 5px;
 }

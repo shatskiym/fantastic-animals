@@ -27,9 +27,6 @@ var Terrains = React.createClass({
     var that = this;
     return (
       <div className='terrains'>
-        <h2 className='field-title'>
-          Field
-        </h2>
         <div className = 'terrains-container'>
           {
             this.state.terrains.map(function(terr,val) {
@@ -64,13 +61,39 @@ var Terrain = React.createClass({
   }
 });
 
-var InfoBoard = React.createClass({
+var LabelH4 = React.createClass({
   render: function() {
     return (
-      <div>
+      <h4>
+        {this.props.text}
+      </h4>
+    )
+  }
+});
+
+var ChosenField = React.createClass({
+  render: function() {
+    return (
+      <div className='chosen-field-container'>
+        <LabelH4
+          text = 'Chosen field'
+        />
         <Terrain
           tType = {this.props.type}
           tDiff = {this.props.diff}
+        />
+      </div>
+    )
+  }
+});
+
+var InfoBoard = React.createClass({
+  render: function() {
+    return (
+      <div className='info-board-container'>
+        <ChosenField
+          type = {this.props.type}
+          diff = {this.props.diff}
         />
       </div>
     )
@@ -95,8 +118,13 @@ var Board = React.createClass({
   render: function() {
     return (
       <div>
-        <Terrains data={this.props.data} changeType={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
-        <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
+        <h2 className='field-title'>
+          Field
+        </h2>
+        <div className='board-container'>
+          <Terrains data={this.props.data} changeType={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
+          <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
+        </div>
       </div>
     )
   }
