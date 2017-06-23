@@ -30,7 +30,7 @@ var Terrains = React.createClass({
                       tType = {terr.element}
                       key = {val}
                       tDiff = {terr.difficult}
-                      changeType = {that.props.changeType}/>;
+                      changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
             })
           }
         </div>
@@ -41,7 +41,7 @@ var Terrains = React.createClass({
 
 var Terrain = React.createClass({
   handleClick: function() {
-    this.props.changeType(this.props.tType, this.props.tDiff)
+    this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
   },
   render: function() {
     return (
@@ -218,7 +218,7 @@ var Board = React.createClass({
           Board
         </h2>
         <div className='board-container'>
-          <Terrains data={this.props.data} changeType={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
+          <Terrains data={this.props.data} changeSelectedTerrain={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
           <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
         </div>
       </div>
