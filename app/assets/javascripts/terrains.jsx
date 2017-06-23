@@ -11,13 +11,9 @@ var Terrains = React.createClass({
   },
   createTerrainsArray: function() {
     var terrs = [];
-    if(this.props.firstTime) {
-      i = 0, len = 54;
-      while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
-      return terrs;
-    } else {
-      terrs = this.state.terrains;
-    }
+    i = 0, len = 54;
+    while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+    return terrs;
   },
   render: function() {
     var that = this;
