@@ -198,15 +198,13 @@ var Board = React.createClass({
   getInitialState: function() {
     return {
       chosenTerrainType: '?',
-      chosenTerrainDiff: '?',
-      isFirstRender: true
+      chosenTerrainDiff: '?'
     }
   },
   changeChosenTerrain: function(type, diff) {
     this.setState({
       chosenTerrainType: type,
-      chosenTerrainDiff: diff,
-      isFirstRender: false
+      chosenTerrainDiff: diff
     });
   },
   render: function() {
@@ -216,7 +214,7 @@ var Board = React.createClass({
           Board
         </h2>
         <div className='board-container'>
-          <Terrains data={this.props.data} changeSelectedTerrain={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
+          <Terrains data={this.props.data} changeSelectedTerrain={this.changeChosenTerrain}></Terrains>
           <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
         </div>
       </div>
