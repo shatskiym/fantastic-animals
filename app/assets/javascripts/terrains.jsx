@@ -125,6 +125,13 @@ var SearchAnimalsResult = React.createClass({
 });
 
 var SearchAnimalsContainer = React.createClass({
+  componentWillReceiveProps: function() {
+    this.setState({
+      diceResult: 0,
+      searchResult: 0,
+      buttonPressed: false
+    });
+  },
   getInitialState: function() {
     return {
       diceResult: 0,
