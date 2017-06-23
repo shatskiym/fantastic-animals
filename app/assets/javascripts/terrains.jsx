@@ -3,24 +3,20 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 var Terrains = React.createClass({
-  terrs: [],
-  getDefaultProps: function() {
-    return {
-      terrains : []
-    }
-  },
   getInitialState: function() {
-    this.createTerrainsArray();
+    var terains = this.createTerrainsArray();
     return {
-      terrains : this.terrs
+      terrains : terains
     }
   },
   createTerrainsArray: function() {
+    var terrs = [];
     if(this.props.firstTime) {
       i = 0, len = 54;
-      while (++i <= len) this.terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+      while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+      return terrs;
     } else {
-      this.terrs = this.state.terrains;
+      terrs = this.state.terrains;
     }
   },
   render: function() {
