@@ -87,11 +87,33 @@ var ChosenField = React.createClass({
   }
 });
 
+var FieldInfo = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <LabelH4
+          text = "Info about field"
+        />
+        <LabelH4
+          text = {"Terrain type: "+this.props.type}
+        />
+        <LabelH4
+          text = {"Terrain difficult: "+this.props.diff}
+        />
+      </div>
+    )
+  }
+});
+
 var InfoBoard = React.createClass({
   render: function() {
     return (
       <div className='info-board-container'>
         <ChosenField
+          type = {this.props.type}
+          diff = {this.props.diff}
+        />
+        <FieldInfo
           type = {this.props.type}
           diff = {this.props.diff}
         />
@@ -119,7 +141,7 @@ var Board = React.createClass({
     return (
       <div>
         <h2 className='field-title'>
-          Field
+          Board
         </h2>
         <div className='board-container'>
           <Terrains data={this.props.data} changeType={this.changeChosenTerrain} firstTime={this.state.isFirstRender}></Terrains>
