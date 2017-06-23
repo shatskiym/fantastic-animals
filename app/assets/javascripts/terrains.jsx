@@ -105,6 +105,74 @@ var FieldInfo = React.createClass({
   }
 });
 
+var SearchAnimalsResult = React.createClass({
+  render: function() {
+    var animalFinded = this.props.searchRes >= 2;
+    return (
+      <div>
+        <LabelH4
+          text = {"Dice result: " + this.props.diceRes}
+        />
+        <LabelH4
+          text = {"Search result: " + this.props.searchRes}
+        />
+        <LabelH4
+          text = {"Animal is " + (animalFinded ? 'finded!' : 'not finded.')}
+        />
+      </div>
+    )
+  }
+});
+
+var SearchAnimalsContainer = React.createClass({
+  getInitialState: function() {
+    return {
+      diceResult: 0,
+      searchResult: 0,
+      buttonPressed: false
+    }
+  },
+  buttonPress: function(diceRes, searchRes) {
+    this.setState({
+      diceResult: diceRes,
+      searchResult: searchRes,
+      buttonPressed: true
+    });
+  },
+  render:  function() {
+    return (
+      <div>
+        <SearchAnimalsButton
+          diff = {this.props.diff}
+          search = {this.buttonPress}
+        />
+        {
+          this.state.buttonPressed &&
+            <SearchAnimalsResult
+              diceRes = {this.state.diceResult}
+              searchRes = {this.state.searchResult}
+            />
+        }
+      </div>
+    )
+  }
+});
+
+var SearchAnimalsButton = React.createClass({
+  searchAnimals: function() {
+    var diceRes = Math.floor(Math.random() * 6) + 1;
+    var searchRes = diceRes - this.props.diff;
+    this.props.search(diceRes, searchRes);
+  },
+  render: function() {
+    return (
+      <button className="btn btn-primary" onClick={this.searchAnimals}>
+        Searh Animals
+      </button>
+    )
+  }
+});
+
 var InfoBoard = React.createClass({
   render: function() {
     return (
@@ -115,6 +183,9 @@ var InfoBoard = React.createClass({
         />
         <FieldInfo
           type = {this.props.type}
+          diff = {this.props.diff}
+        />
+        <SearchAnimalsContainer
           diff = {this.props.diff}
         />
       </div>
