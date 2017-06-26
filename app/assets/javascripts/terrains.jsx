@@ -132,11 +132,13 @@ var ChosenField = React.createClass({
         <LabelH4
           text = 'Chosen field'
         />
-        <Terrain
-          tType = {this.props.type}
-          tDiff = {this.props.diff}
-          setMode = {this.props.setMode}
-        />
+        <div className='info-terrain-container'>
+          <Terrain
+            tType = {this.props.type}
+            tDiff = {this.props.diff}
+            setMode = {this.props.setMode}
+          />
+        </div>
       </div>
     )
   }
