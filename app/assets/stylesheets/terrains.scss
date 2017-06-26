@@ -5,8 +5,9 @@
 .terrains-container {
   margin: 10px 10px;
   height: 600px;
-  width: 900px;
+  width: 970px;
   display: inline-block;
+  position: relative;
 }
 
 .field-title {
@@ -62,4 +63,30 @@
 
 .chosen-field-container {
   margin: 5px 5px;
+  position: relative;
+}
+
+.hex {
+  width: 58px;
+  height: 100px;
+  display: inline-block;
+  position: absolute;
+}
+
+.hexagon {
+  position: absolute;
+  display: block;
+  font-size: 10px;
+}
+
+.hex1 {
+
+}
+
+.hex2 {
+  transform: rotate(60deg);
+}
+
+.hex3 {
+  transform: rotate(-60deg);
 }

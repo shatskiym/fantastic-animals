@@ -65,22 +65,42 @@ var Terrain = React.createClass({
   chooseField: function() {
     this.props.updateFields(this.props.index, this.refs.checkbox.checked)
   },
+  topValue: function() {
+    if (this.props.index % 10 > 4) {
+      return ((this.props.index % 5) * 100 + 50);
+    }
+    return ((this.props.index % 5) * 100);
+  },
+  leftValue: function() {
+    if (this.props.index == 0) {
+      return 30;
+    }
+    return (Math.floor(this.props.index / 5)) * 85 + 30;
+  },
   render: function() {
+    const styleProps = {
+      top: this.topValue(),
+      left: this.leftValue()
+    };
     return (
-      <div className={'terrain-container ' + this.props.tType} onClick={this.handleClick}>
-        <div className='terrain-type'> {"Elem: " + this.props.tType} </div>
-        {
-          this.props.tDiff && <div className='terrain-difficult'> {"Difficult: " + this.props.tDiff} </div>
-        }
-        {
-          (this.props.setMode && this.props.updateFields) && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
-        }
-        {
-          this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
-        }
-        {
-          (!this.props.setMode && this.props.tDiff) && <MeetMarker/>
-        }
+      <div className='hexagon' style={styleProps}>
+        <div className={"hex hex2 " + this.props.tType} onClick={this.handleClick}></div>
+        <div className={"hex hex3 " + this.props.tType} onClick={this.handleClick}></div>
+        <div className={"hex hex1 " + this.props.tType} onClick={this.handleClick}>
+          <div>{'Elem: ' + this.props.tType}</div>
+          {
+            this.props.tDiff && <div className='terrain-difficult'> {"Difficult: " + this.props.tDiff} </div>
+          }
+          {
+            (this.props.setMode && this.props.updateFields) && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
+          }
+          {
+            this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
+          }
+          {
+            (!this.props.setMode && this.props.tDiff) && <MeetMarker/>
+          }
+        </div>
       </div>
     )
   }
