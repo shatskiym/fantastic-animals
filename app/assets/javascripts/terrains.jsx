@@ -22,12 +22,32 @@ var Terrains = React.createClass({
         <div className = 'terrains-container'>
           {
             this.state.terrains.map(function(terr,val) {
-              return <Terrain
-                      tType = {terr.element}
-                      key = {val}
-                      tDiff = {terr.difficult}
-                      index = {val}
-                      changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+              if (!that.props.setMode) {
+                if (that.props.meetFields.indexOf(val) > -1) {
+                  return <Terrain
+                          tType = {terr.element}
+                          key = {val}
+                          tDiff = {terr.difficult}
+                          index = {val}
+                          changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+                } else {
+                  return <Terrain
+                          tType = {terr.element}
+                          key = {val}
+                          tDiff = ''
+                          index = {val}
+                          changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+                }
+              } else {
+                return <Terrain
+                        tType = {terr.element}
+                        key = {val}
+                        tDiff = {terr.difficult}
+                        index = {val}
+                        setMode = {that.props.setMode}
+                        updateFields = {that.props.updateFields}
+                        changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+              }
             })
           }
         </div>
@@ -42,18 +62,22 @@ var Terrain = React.createClass({
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
   },
+  chooseField: function() {
+    this.props.updateFields(this.props.index, this.refs.checkbox.checked)
+  },
   render: function() {
     return (
       <div className={'terrain-container ' + this.props.tType} onClick={this.handleClick}>
-        <div className='terrain-type'>
-          {"Elem: " + this.props.tType}
-        </div>
-        <div className='terrain-difficult'>
-          {"Difficult: " + this.props.tDiff}
-        </div>
-        <div className='terrain-number'>
-          {this.props.index}
-        </div>
+        <div className='terrain-type'> {"Elem: " + this.props.tType} </div>
+        {
+          this.props.tDiff && <div className='terrain-difficult'> {"Difficult: " + this.props.tDiff} </div>
+        }
+        {
+          this.props.setMode && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
+        }
+        {
+          this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
+        }
       </div>
     )
   }
@@ -198,11 +222,13 @@ var InfoBoard = React.createClass({
   }
 });
 
-var Board = React.createClass({
+var Board = React.createClass({ //Main element
   getInitialState: function() {
     return {
       chosenTerrainType: '?',
-      chosenTerrainDiff: '?'
+      chosenTerrainDiff: '?',
+      setMode: true,
+      selectedFields: []
     }
   },
   changeChosenTerrain: function(type, diff) {
@@ -211,14 +237,41 @@ var Board = React.createClass({
       chosenTerrainDiff: diff
     });
   },
+  setFields: function(){
+    this.setState({
+      setMode: false
+    })
+  },
+  updateSelectedFields: function(id, checked) {
+    var selected = this.state.selectedFields;
+    if (checked) {
+      selected[selected.length] = id;
+    } else {
+      var index = selected.indexOf(id);
+      if (index > -1) {
+        selected.splice(index, 1);
+      }
+    }
+    this.setState({
+      selectedFields: selected
+    })
+  },
   render: function() {
     return (
       <div>
         <h2 className='field-title'>
           Board
         </h2>
+        {
+          this.state.setMode && <button className='btn btn-primary' onClick={this.setFields}>Configure Fields</button>
+        }
         <div className='board-container'>
-          <Terrains data={this.props.data} changeSelectedTerrain={this.changeChosenTerrain}></Terrains>
+          <Terrains
+           data={this.props.data}
+           changeSelectedTerrain={this.changeChosenTerrain}
+           setMode={this.state.setMode}
+           meetFields={this.state.selectedFields}
+           updateFields={this.updateSelectedFields}></Terrains>
           <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
         </div>
       </div>
