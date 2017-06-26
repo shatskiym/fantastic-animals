@@ -26,6 +26,7 @@ var Terrains = React.createClass({
                       tType = {terr.element}
                       key = {val}
                       tDiff = {terr.difficult}
+                      index = {val}
                       changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
             })
           }
@@ -45,10 +46,13 @@ var Terrain = React.createClass({
     return (
       <div className={'terrain-container ' + this.props.tType} onClick={this.handleClick}>
         <div className='terrain-type'>
-          {this.props.tType}
+          {"Elem: " + this.props.tType}
         </div>
         <div className='terrain-difficult'>
-          {this.props.tDiff}
+          {"Difficult: " + this.props.tDiff}
+        </div>
+        <div className='terrain-number'>
+          {this.props.index}
         </div>
       </div>
     )
