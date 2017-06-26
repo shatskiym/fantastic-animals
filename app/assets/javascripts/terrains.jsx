@@ -210,13 +210,19 @@ var InfoBoard = React.createClass({
           type = {this.props.type}
           diff = {this.props.diff}
         />
-        <FieldInfo
-          type = {this.props.type}
-          diff = {this.props.diff}
-        />
-        <SearchAnimalsContainer
-          diff = {this.props.diff}
-        />
+        {
+          this.props.diff &&
+          <FieldInfo
+            type = {this.props.type}
+            diff = {this.props.diff}
+          />
+        }
+        {
+          this.props.diff &&
+          <SearchAnimalsContainer
+            diff = {this.props.diff}
+          />
+        }
       </div>
     )
   }
