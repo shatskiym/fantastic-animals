@@ -78,6 +78,18 @@ var Terrain = React.createClass({
         {
           this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
         }
+        {
+          (!this.props.setMode && this.props.tDiff) && <MeetMarker/>
+        }
+      </div>
+    )
+  }
+});
+
+var MeetMarker = React.createClass({
+  render: function() {
+    return (
+      <div className='meet-marker'>
       </div>
     )
   }
