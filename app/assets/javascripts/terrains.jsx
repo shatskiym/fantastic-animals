@@ -73,7 +73,7 @@ var Terrain = React.createClass({
           this.props.tDiff && <div className='terrain-difficult'> {"Difficult: " + this.props.tDiff} </div>
         }
         {
-          this.props.setMode && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
+          (this.props.setMode && this.props.updateFields) && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
         }
         {
           this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
@@ -115,6 +115,7 @@ var ChosenField = React.createClass({
         <Terrain
           tType = {this.props.type}
           tDiff = {this.props.diff}
+          setMode = {this.props.setMode}
         />
       </div>
     )
@@ -221,6 +222,7 @@ var InfoBoard = React.createClass({
         <ChosenField
           type = {this.props.type}
           diff = {this.props.diff}
+          setMode = {this.props.setMode}
         />
         {
           this.props.diff &&
