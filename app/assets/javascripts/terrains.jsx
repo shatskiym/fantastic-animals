@@ -218,10 +218,10 @@ var InfoBoard = React.createClass({
           />
         }
         {
-          this.props.diff &&
-          <SearchAnimalsContainer
-            diff = {this.props.diff}
-          />
+          (this.props.diff && !this.props.setMode) &&
+            <SearchAnimalsContainer
+              diff = {this.props.diff}
+            />
         }
       </div>
     )
@@ -278,7 +278,7 @@ var Board = React.createClass({ //Main element
            setMode={this.state.setMode}
            meetFields={this.state.selectedFields}
            updateFields={this.updateSelectedFields}></Terrains>
-          <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff}/>
+          <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff} setMode={this.state.setMode}/>
         </div>
       </div>
     )
