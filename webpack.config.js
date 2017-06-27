@@ -21,8 +21,7 @@ config.output = {
 // Use babel-loader for our *.js files.
 config.module = {
   loaders: [
-    { test: /\.js$/,
-      exclude: /node_modules/,
-      loader: "babel-loader" }
+    { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+    { test: /\.jsx$/, exclude: /node_modules/, loader: "babel-loader" }
   ]
 };
