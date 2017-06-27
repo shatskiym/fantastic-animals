@@ -57,6 +57,9 @@ var Terrains = React.createClass({
 });
 
 var Terrain = React.createClass({
+  hexHeight: 100,
+  generalOffsetLeft: 30,
+  offsetLeft: 85,
   handleClick: function() {
     if (this.props.changeSelectedTerrain){
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
@@ -66,16 +69,17 @@ var Terrain = React.createClass({
     this.props.updateFields(this.props.index, this.refs.checkbox.checked)
   },
   topValue: function() {
+    if (!this.props.index) {return 0;}
     if (this.props.index % 10 > 4) {
-      return ((this.props.index % 5) * 100 + 50);
+      return ((this.props.index % 5) * this.hexHeight + this.hexHeight / 2);
     }
-    return ((this.props.index % 5) * 100);
+    return ((this.props.index % 5) * this.hexHeight);
   },
   leftValue: function() {
-    if (this.props.index == 0) {
-      return 30;
+    if (!this.props.index || this.props.index == 0) {
+      return this.generalOffsetLeft;
     }
-    return (Math.floor(this.props.index / 5)) * 85 + 30;
+    return (Math.floor(this.props.index / 5)) * this.offsetLeft + this.generalOffsetLeft;
   },
   render: function() {
     const styleProps = {
