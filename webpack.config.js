@@ -8,7 +8,7 @@ config.context = __dirname;
 // Specify your entries, I store all my webpack managed JavaScript in
 // app/webpack, as per my earlier requirements.
 config.entry = {
-  cart: './app/webpack/cart.js'
+  app: './app/webpack/app.js'
 };
 
 // This outputs an entry named 'foobar' into
