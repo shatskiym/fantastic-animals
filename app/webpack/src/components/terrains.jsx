@@ -3,6 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 import React from 'react'
+import { connect } from 'react-redux'
 
 var Terrains = React.createClass({
   getInitialState: function() {
@@ -273,17 +274,12 @@ var InfoBoard = React.createClass({
 const Board = React.createClass({ //Main element
   getInitialState: function() {
     return {
-      chosenTerrainType: '?',
-      chosenTerrainDiff: '?',
       setMode: true,
       selectedFields: []
     }
   },
-  changeChosenTerrain: function(type, diff) {
-    this.setState({
-      chosenTerrainType: type,
-      chosenTerrainDiff: diff
-    });
+  changeTerrainForPreview: function(type, diff) {
+    this.props.changeTerrainForPreview(diff, type);
   },
   setFields: function(){
     this.setState({
@@ -305,6 +301,7 @@ const Board = React.createClass({ //Main element
     })
   },
   render: function() {
+    console.log(this.props.terrainForPreview);
     return (
       <div>
         <h2 className='field-title'>
@@ -316,15 +313,38 @@ const Board = React.createClass({ //Main element
         <div className='board-container'>
           <Terrains
            data={this.props.data}
-           changeSelectedTerrain={this.changeChosenTerrain}
+           changeSelectedTerrain={this.changeTerrainForPreview}
            setMode={this.state.setMode}
            meetFields={this.state.selectedFields}
            updateFields={this.updateSelectedFields}></Terrains>
-          <InfoBoard type={this.state.chosenTerrainType} diff={this.state.chosenTerrainDiff} setMode={this.state.setMode}/>
+          <InfoBoard type={this.props.terrainForPreview.terrainType} diff={this.props.terrainForPreview.terrainDiff} setMode={this.state.setMode}/>
         </div>
       </div>
     )
   }
 });
 
-export default Board;
+export default connect(
+  function mapStateToProps (state) {
+    return {
+      terrainForPreview: state.previewTerrain
+    }
+  },
+
+  function mapDispatchToProps (dispatch) {
+    return {
+
+      changeTerrainForPreview: function(diff, type){
+        dispatch({
+          type: 'CHANGE_TERRAIN_FOR_PREVIEW',
+          payload: {
+            terrainDiff: diff,
+            terrainType: type
+          }
+        })
+      }
+
+    }
+  }
+
+)(Board);
