@@ -23421,14 +23421,14 @@ var Terrains = _react2.default.createClass({
         this.props.field.map(function (terr, val) {
           if (!that.props.setMode) {
             if (that.props.meetFields.indexOf(val) > -1) {
-              return _react2.default.createElement(Terrain, {
+              return _react2.default.createElement(TerrainContainer, {
                 tType: terr.element,
                 key: val,
                 tDiff: terr.difficult,
                 index: val,
                 changeSelectedTerrain: that.props.changeSelectedTerrain });
             } else {
-              return _react2.default.createElement(Terrain, {
+              return _react2.default.createElement(TerrainContainer, {
                 tType: terr.element,
                 key: val,
                 tDiff: '',
@@ -23436,7 +23436,7 @@ var Terrains = _react2.default.createClass({
                 changeSelectedTerrain: that.props.changeSelectedTerrain });
             }
           } else {
-            return _react2.default.createElement(Terrain, {
+            return _react2.default.createElement(TerrainContainer, {
               tType: terr.element,
               key: val,
               tDiff: terr.difficult,
@@ -23451,8 +23451,8 @@ var Terrains = _react2.default.createClass({
   }
 });
 
-var Terrain = _react2.default.createClass({
-  displayName: 'Terrain',
+var TerrainContainer = _react2.default.createClass({
+  displayName: 'TerrainContainer',
 
   hexHeight: 100,
   generalOffsetLeft: 30,
@@ -23461,9 +23461,6 @@ var Terrain = _react2.default.createClass({
     if (this.props.changeSelectedTerrain) {
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff);
     }
-  },
-  chooseField: function chooseField() {
-    this.props.updateFields(this.props.index, this.refs.checkbox.checked);
   },
   topValue: function topValue() {
     if (!this.props.index) {
@@ -23485,14 +23482,28 @@ var Terrain = _react2.default.createClass({
       top: this.topValue(),
       left: this.leftValue()
     };
+    return _react2.default.createElement(Terrain, {
+      styleProps: styleProps,
+      tType: this.props.tType,
+      handleClick: this.handleClick,
+      tDiff: this.props.tDiff,
+      updateFields: this.props.updateFields,
+      setMode: this.props.setMode,
+      index: this.props.index });
+  }
+});
+
+var Terrain = _react2.default.createClass({
+  displayName: 'Terrain',
+  render: function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'hexagon', style: styleProps },
-      _react2.default.createElement('div', { className: "hex hex2 " + this.props.tType, onClick: this.handleClick }),
-      _react2.default.createElement('div', { className: "hex hex3 " + this.props.tType, onClick: this.handleClick }),
+      { className: 'hexagon', style: this.props.styleProps },
+      _react2.default.createElement('div', { className: "hex hex2 " + this.props.tType, onClick: this.props.handleClick }),
+      _react2.default.createElement('div', { className: "hex hex3 " + this.props.tType, onClick: this.props.handleClick }),
       _react2.default.createElement(
         'div',
-        { className: "hex hex1 " + this.props.tType, onClick: this.handleClick },
+        { className: "hex hex1 " + this.props.tType, onClick: this.props.handleClick },
         _react2.default.createElement(
           'div',
           null,
@@ -23505,7 +23516,7 @@ var Terrain = _react2.default.createClass({
           "Difficult: " + this.props.tDiff,
           ' '
         ),
-        this.props.setMode && this.props.updateFields && _react2.default.createElement('input', { type: 'checkbox', ref: 'checkbox', onChange: this.chooseField }),
+        this.props.setMode && this.props.updateFields && _react2.default.createElement(TerrainCheckbox, { updateFields: this.props.updateFields, index: this.props.index }),
         this.props.setMode && _react2.default.createElement(
           'div',
           { className: 'terrain-number' },
@@ -23516,6 +23527,17 @@ var Terrain = _react2.default.createClass({
         !this.props.setMode && this.props.tDiff && _react2.default.createElement(MeetMarker, null)
       )
     );
+  }
+});
+
+var TerrainCheckbox = _react2.default.createClass({
+  displayName: 'TerrainCheckbox',
+
+  chooseField: function chooseField() {
+    this.props.updateFields(this.props.index, this.refs.checkbox.checked);
+  },
+  render: function render() {
+    return _react2.default.createElement('input', { type: 'checkbox', ref: 'checkbox', onChange: this.chooseField });
   }
 });
 
@@ -23552,7 +23574,7 @@ var ChosenField = _react2.default.createClass({
       _react2.default.createElement(
         'div',
         { className: 'info-terrain-container' },
-        _react2.default.createElement(Terrain, {
+        _react2.default.createElement(TerrainContainer, {
           tType: this.props.type,
           tDiff: this.props.diff,
           setMode: this.props.setMode
@@ -25264,8 +25286,8 @@ function meetingFields() {
     return [].concat(_toConsumableArray(state), [action.payload]);
   } else if (action.type === 'REMOVE_MEETING_FIELD') {
     var selectFields = state;
-    if (state.meetingFields.indexOf(action.payload) > -1) {
-      selectFields.splice(state.meetingFields.indexOf(action.payload), 1);
+    if (state.indexOf(action.payload) > -1) {
+      selectFields.splice(state.indexOf(action.payload), 1);
     }
     return selectFields;
   }

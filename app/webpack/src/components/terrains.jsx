@@ -15,14 +15,14 @@ const Terrains = React.createClass({
             this.props.field.map(function(terr,val) {
               if (!that.props.setMode) {
                 if (that.props.meetFields.indexOf(val) > -1) {
-                  return <Terrain
+                  return <TerrainContainer
                           tType = {terr.element}
                           key = {val}
                           tDiff = {terr.difficult}
                           index = {val}
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
                 } else {
-                  return <Terrain
+                  return <TerrainContainer
                           tType = {terr.element}
                           key = {val}
                           tDiff = ''
@@ -30,7 +30,7 @@ const Terrains = React.createClass({
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
                 }
               } else {
-                return <Terrain
+                return <TerrainContainer
                         tType = {terr.element}
                         key = {val}
                         tDiff = {terr.difficult}
@@ -47,7 +47,7 @@ const Terrains = React.createClass({
   }
 });
 
-const Terrain = React.createClass({
+const TerrainContainer = React.createClass({
   hexHeight: 100,
   generalOffsetLeft: 30,
   offsetLeft: 85,
@@ -55,9 +55,6 @@ const Terrain = React.createClass({
     if (this.props.changeSelectedTerrain){
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
-  },
-  chooseField: function() {
-    this.props.updateFields(this.props.index, this.refs.checkbox.checked)
   },
   topValue: function() {
     if (!this.props.index) {return 0;}
@@ -78,16 +75,31 @@ const Terrain = React.createClass({
       left: this.leftValue()
     };
     return (
-      <div className='hexagon' style={styleProps}>
-        <div className={"hex hex2 " + this.props.tType} onClick={this.handleClick}></div>
-        <div className={"hex hex3 " + this.props.tType} onClick={this.handleClick}></div>
-        <div className={"hex hex1 " + this.props.tType} onClick={this.handleClick}>
+      <Terrain
+        styleProps = {styleProps}
+        tType = {this.props.tType}
+        handleClick = {this.handleClick}
+        tDiff = {this.props.tDiff}
+        updateFields = {this.props.updateFields}
+        setMode = {this.props.setMode}
+        index = {this.props.index}/>
+    )
+  }
+});
+
+const Terrain = React.createClass({
+  render() {
+    return (
+      <div className='hexagon' style={this.props.styleProps}>
+        <div className={"hex hex2 " + this.props.tType} onClick={this.props.handleClick}></div>
+        <div className={"hex hex3 " + this.props.tType} onClick={this.props.handleClick}></div>
+        <div className={"hex hex1 " + this.props.tType} onClick={this.props.handleClick}>
           <div>{'Elem: ' + this.props.tType}</div>
           {
             this.props.tDiff && <div className='terrain-difficult'> {"Difficult: " + this.props.tDiff} </div>
           }
           {
-            (this.props.setMode && this.props.updateFields) && <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
+            (this.props.setMode && this.props.updateFields) && <TerrainCheckbox updateFields = {this.props.updateFields} index = {this.props.index}/>
           }
           {
             this.props.setMode && <div className='terrain-number'> {this.props.index} </div>
@@ -100,6 +112,17 @@ const Terrain = React.createClass({
     )
   }
 });
+
+const TerrainCheckbox = React.createClass({
+  chooseField: function() {
+    this.props.updateFields(this.props.index, this.refs.checkbox.checked)
+  },
+  render() {
+    return(
+      <input type='checkbox' ref={'checkbox'} onChange={this.chooseField}/>
+    )
+  }
+})
 
 const MeetMarker = React.createClass({
   render: function() {
@@ -128,7 +151,7 @@ const ChosenField = React.createClass({
           text = 'Chosen field'
         />
         <div className='info-terrain-container'>
-          <Terrain
+          <TerrainContainer
             tType = {this.props.type}
             tDiff = {this.props.diff}
             setMode = {this.props.setMode}
