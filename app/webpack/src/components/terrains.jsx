@@ -178,6 +178,8 @@ const SearchAnimalsResult = React.createClass({
 
 const SearchAnimalsContainer = React.createClass({
   buttonPress: function(diceRes, searchRes) {
+    var diceRes = Math.floor(Math.random() * 6) + 1;
+    var searchRes = diceRes - this.props.diff;
     this.props.searchAnimalsButton(diceRes, searchRes);
   },
   render:  function() {
@@ -185,7 +187,7 @@ const SearchAnimalsContainer = React.createClass({
       <div>
         <SearchAnimalsButton
           diff = {this.props.diff}
-          search = {this.buttonPress}
+          searchAnimals = {this.buttonPress}
         />
         {
           this.props.animalsSearch.diceRolled &&
@@ -200,14 +202,9 @@ const SearchAnimalsContainer = React.createClass({
 });
 
 const SearchAnimalsButton = React.createClass({
-  searchAnimals: function() {
-    var diceRes = Math.floor(Math.random() * 6) + 1;
-    var searchRes = diceRes - this.props.diff;
-    this.props.search(diceRes, searchRes);
-  },
   render: function() {
     return (
-      <button className="btn btn-primary" onClick={this.searchAnimals}>
+      <button className="btn btn-primary" onClick={this.props.searchAnimals}>
         Searh Animals
       </button>
     )

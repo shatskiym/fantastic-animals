@@ -23607,6 +23607,8 @@ var SearchAnimalsContainer = _react2.default.createClass({
   displayName: 'SearchAnimalsContainer',
 
   buttonPress: function buttonPress(diceRes, searchRes) {
+    var diceRes = Math.floor(Math.random() * 6) + 1;
+    var searchRes = diceRes - this.props.diff;
     this.props.searchAnimalsButton(diceRes, searchRes);
   },
   render: function render() {
@@ -23615,7 +23617,7 @@ var SearchAnimalsContainer = _react2.default.createClass({
       null,
       _react2.default.createElement(SearchAnimalsButton, {
         diff: this.props.diff,
-        search: this.buttonPress
+        searchAnimals: this.buttonPress
       }),
       this.props.animalsSearch.diceRolled && _react2.default.createElement(SearchAnimalsResult, {
         diceRes: this.props.animalsSearch.diceResult,
@@ -23628,15 +23630,10 @@ var SearchAnimalsContainer = _react2.default.createClass({
 var SearchAnimalsButton = _react2.default.createClass({
   displayName: 'SearchAnimalsButton',
 
-  searchAnimals: function searchAnimals() {
-    var diceRes = Math.floor(Math.random() * 6) + 1;
-    var searchRes = diceRes - this.props.diff;
-    this.props.search(diceRes, searchRes);
-  },
   render: function render() {
     return _react2.default.createElement(
       'button',
-      { className: 'btn btn-primary', onClick: this.searchAnimals },
+      { className: 'btn btn-primary', onClick: this.props.searchAnimals },
       'Searh Animals'
     );
   }
