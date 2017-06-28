@@ -6,25 +6,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 var Terrains = React.createClass({
-  getInitialState: function() {
-    var terains = this.createTerrainsArray();
-    return {
-      terrains : terains
-    }
-  },
-  createTerrainsArray: function() {
-    var terrs = [];
-    var i = 0, len = 54;
-    while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
-    return terrs;
-  },
   render: function() {
     var that = this;
     return (
       <div className='terrains'>
         <div className = 'terrains-container'>
           {
-            this.state.terrains.map(function(terr,val) {
+            this.props.field.map(function(terr,val) {
               if (!that.props.setMode) {
                 if (that.props.meetFields.indexOf(val) > -1) {
                   return <Terrain
@@ -257,6 +245,15 @@ var InfoBoard = React.createClass({
 });
 
 const Board = React.createClass({ //Main element
+  componentDidMount: function() {
+    this.props.createField(this.createTerrainsArray());
+  },
+  createTerrainsArray: function() {
+    var terrs = [];
+    var i = 0, len = 55;
+    while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+    return terrs;
+  },
   changeTerrainForPreview: function(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
     if (this.props.animalsSearch.diceRolled) {
@@ -284,11 +281,11 @@ const Board = React.createClass({ //Main element
         }
         <div className='board-container'>
           <Terrains
-           data={this.props.data}
            changeSelectedTerrain={this.changeTerrainForPreview}
            setMode={this.props.setMode}
            meetFields={this.props.meetingFields}
-           updateFields={this.updateSelectedFields}/>
+           updateFields={this.updateSelectedFields}
+           field={this.props.field}/>
           <InfoBoard
            type={this.props.terrainForPreview.terrainType}
            diff={this.props.terrainForPreview.terrainDiff}
@@ -308,7 +305,8 @@ export default connect(
       terrainForPreview: state.previewTerrain,
       meetingFields: state.meetingFields,
       setMode: state.choosingMeetingFieldsMode,
-      animalsSearch: state.animalsSearch
+      animalsSearch: state.animalsSearch,
+      field: state.field
     }
   },
 
@@ -359,8 +357,14 @@ export default connect(
         dispatch({
           type: 'RESET_DICE_RESULT'
         })
-      }
+      },
 
+      createField: function(terrains) {
+        dispatch({
+          type: 'CREATE_FIELD',
+          payload: terrains
+        })
+      }
     }
   }
 )(Board);

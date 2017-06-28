@@ -23410,20 +23410,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Terrains = _react2.default.createClass({
   displayName: 'Terrains',
 
-  getInitialState: function getInitialState() {
-    var terains = this.createTerrainsArray();
-    return {
-      terrains: terains
-    };
-  },
-  createTerrainsArray: function createTerrainsArray() {
-    var terrs = [];
-    var i = 0,
-        len = 54;
-    while (++i <= len) {
-      terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
-    }return terrs;
-  },
   render: function render() {
     var that = this;
     return _react2.default.createElement(
@@ -23432,7 +23418,7 @@ var Terrains = _react2.default.createClass({
       _react2.default.createElement(
         'div',
         { className: 'terrains-container' },
-        this.state.terrains.map(function (terr, val) {
+        this.props.field.map(function (terr, val) {
           if (!that.props.setMode) {
             if (that.props.meetFields.indexOf(val) > -1) {
               return _react2.default.createElement(Terrain, {
@@ -23685,6 +23671,17 @@ var InfoBoard = _react2.default.createClass({
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
+  componentDidMount: function componentDidMount() {
+    this.props.createField(this.createTerrainsArray());
+  },
+  createTerrainsArray: function createTerrainsArray() {
+    var terrs = [];
+    var i = 0,
+        len = 55;
+    while (++i <= len) {
+      terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+    }return terrs;
+  },
   changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
     if (this.props.animalsSearch.diceRolled) {
@@ -23719,11 +23716,11 @@ var Board = _react2.default.createClass({
         'div',
         { className: 'board-container' },
         _react2.default.createElement(Terrains, {
-          data: this.props.data,
           changeSelectedTerrain: this.changeTerrainForPreview,
           setMode: this.props.setMode,
           meetFields: this.props.meetingFields,
-          updateFields: this.updateSelectedFields }),
+          updateFields: this.updateSelectedFields,
+          field: this.props.field }),
         _react2.default.createElement(InfoBoard, {
           type: this.props.terrainForPreview.terrainType,
           diff: this.props.terrainForPreview.terrainDiff,
@@ -23741,7 +23738,8 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
     terrainForPreview: state.previewTerrain,
     meetingFields: state.meetingFields,
     setMode: state.choosingMeetingFieldsMode,
-    animalsSearch: state.animalsSearch
+    animalsSearch: state.animalsSearch,
+    field: state.field
   };
 }, function mapDispatchToProps(dispatch) {
   return {
@@ -23790,8 +23788,14 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
       dispatch({
         type: 'RESET_DICE_RESULT'
       });
-    }
+    },
 
+    createField: function createField(terrains) {
+      dispatch({
+        type: 'CREATE_FIELD',
+        payload: terrains
+      });
+    }
   };
 })(Board);
 
@@ -25163,10 +25167,14 @@ var _searchAnimals = __webpack_require__(230);
 
 var _searchAnimals2 = _interopRequireDefault(_searchAnimals);
 
+var _field = __webpack_require__(231);
+
+var _field2 = _interopRequireDefault(_field);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default
+  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default, field: _field2.default
 });
 
 /***/ }),
@@ -25280,6 +25288,27 @@ function animalsSearch() {
     };
   } else if (action.type === 'RESET_DICE_RESULT') {
     return initState;
+  }
+  return state;
+}
+
+/***/ }),
+/* 231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = field;
+function field() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  if (action.type === 'CREATE_FIELD') {
+    return action.payload;
   }
   return state;
 }
