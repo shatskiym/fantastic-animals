@@ -5,7 +5,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-var Terrains = React.createClass({
+const Terrains = React.createClass({
   render: function() {
     var that = this;
     return (
@@ -47,7 +47,7 @@ var Terrains = React.createClass({
   }
 });
 
-var Terrain = React.createClass({
+const Terrain = React.createClass({
   hexHeight: 100,
   generalOffsetLeft: 30,
   offsetLeft: 85,
@@ -101,7 +101,7 @@ var Terrain = React.createClass({
   }
 });
 
-var MeetMarker = React.createClass({
+const MeetMarker = React.createClass({
   render: function() {
     return (
       <div className='meet-marker'>
@@ -110,7 +110,7 @@ var MeetMarker = React.createClass({
   }
 });
 
-var LabelH4 = React.createClass({
+const LabelH4 = React.createClass({
   render: function() {
     return (
       <h4>
@@ -120,7 +120,7 @@ var LabelH4 = React.createClass({
   }
 });
 
-var ChosenField = React.createClass({
+const ChosenField = React.createClass({
   render: function() {
     return (
       <div className='chosen-field-container'>
@@ -139,7 +139,7 @@ var ChosenField = React.createClass({
   }
 });
 
-var FieldInfo = React.createClass({
+const FieldInfo = React.createClass({
   render: function() {
     return (
       <div>
@@ -157,7 +157,7 @@ var FieldInfo = React.createClass({
   }
 });
 
-var SearchAnimalsResult = React.createClass({
+const SearchAnimalsResult = React.createClass({
   render: function() {
     var animalFinded = this.props.searchRes >= 2;
     return (
@@ -176,7 +176,7 @@ var SearchAnimalsResult = React.createClass({
   }
 });
 
-var SearchAnimalsContainer = React.createClass({
+const SearchAnimalsContainer = React.createClass({
   buttonPress: function(diceRes, searchRes) {
     this.props.searchAnimalsButton(diceRes, searchRes);
   },
@@ -199,7 +199,7 @@ var SearchAnimalsContainer = React.createClass({
   }
 });
 
-var SearchAnimalsButton = React.createClass({
+const SearchAnimalsButton = React.createClass({
   searchAnimals: function() {
     var diceRes = Math.floor(Math.random() * 6) + 1;
     var searchRes = diceRes - this.props.diff;
@@ -214,7 +214,7 @@ var SearchAnimalsButton = React.createClass({
   }
 });
 
-var InfoBoard = React.createClass({
+const InfoBoard = React.createClass({
   render: function() {
     return (
       <div className='info-board-container'>
@@ -243,6 +243,16 @@ var InfoBoard = React.createClass({
     )
   }
 });
+
+const LabelH2 = React.createClass({
+  render() {
+    return (
+      <h2 className={this.props.classes}>
+        {this.props.text}
+      </h2>
+    )
+  }
+})
 
 const Board = React.createClass({ //Main element
   componentDidMount: function() {
@@ -273,9 +283,9 @@ const Board = React.createClass({ //Main element
   render: function() {
     return (
       <div>
-        <h2 className='field-title'>
-          Board
-        </h2>
+        <LabelH2
+          text = 'Board'
+          classes = 'field-title'/>
         {
           this.props.setMode && <button className='btn btn-primary' onClick={this.setMeetingFields}>Configure Fields</button>
         }

@@ -23668,6 +23668,17 @@ var InfoBoard = _react2.default.createClass({
   }
 });
 
+var LabelH2 = _react2.default.createClass({
+  displayName: 'LabelH2',
+  render: function render() {
+    return _react2.default.createElement(
+      'h2',
+      { className: this.props.classes },
+      this.props.text
+    );
+  }
+});
+
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
@@ -23702,11 +23713,9 @@ var Board = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(
-        'h2',
-        { className: 'field-title' },
-        'Board'
-      ),
+      _react2.default.createElement(LabelH2, {
+        text: 'Board',
+        classes: 'field-title' }),
       this.props.setMode && _react2.default.createElement(
         'button',
         { className: 'btn btn-primary', onClick: this.setMeetingFields },
