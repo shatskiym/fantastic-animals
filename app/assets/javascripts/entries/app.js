@@ -23679,6 +23679,21 @@ var LabelH2 = _react2.default.createClass({
   }
 });
 
+var ConfigureFieldsButton = _react2.default.createClass({
+  displayName: 'ConfigureFieldsButton',
+  render: function render() {
+    if (this.props.setMode) {
+      return _react2.default.createElement(
+        'button',
+        { className: 'btn btn-primary', onClick: this.props.setMeetingFields },
+        'Configure Fields'
+      );
+    } else {
+      return null;
+    }
+  }
+});
+
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
@@ -23716,11 +23731,9 @@ var Board = _react2.default.createClass({
       _react2.default.createElement(LabelH2, {
         text: 'Board',
         classes: 'field-title' }),
-      this.props.setMode && _react2.default.createElement(
-        'button',
-        { className: 'btn btn-primary', onClick: this.setMeetingFields },
-        'Configure Fields'
-      ),
+      _react2.default.createElement(ConfigureFieldsButton, {
+        setMode: this.props.setMode,
+        setMeetingFields: this.setMeetingFields }),
       _react2.default.createElement(
         'div',
         { className: 'board-container' },

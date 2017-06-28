@@ -254,6 +254,20 @@ const LabelH2 = React.createClass({
   }
 })
 
+const ConfigureFieldsButton = React.createClass({
+  render() {
+    if (this.props.setMode) {
+      return (
+        <button className='btn btn-primary' onClick={this.props.setMeetingFields}>
+          Configure Fields
+        </button>
+      )
+    } else {
+      return null;
+    }
+  }
+})
+
 const Board = React.createClass({ //Main element
   componentDidMount: function() {
     this.props.createField(this.createTerrainsArray());
@@ -286,9 +300,9 @@ const Board = React.createClass({ //Main element
         <LabelH2
           text = 'Board'
           classes = 'field-title'/>
-        {
-          this.props.setMode && <button className='btn btn-primary' onClick={this.setMeetingFields}>Configure Fields</button>
-        }
+        <ConfigureFieldsButton
+          setMode = {this.props.setMode}
+          setMeetingFields = {this.setMeetingFields}/>
         <div className='board-container'>
           <Terrains
            changeSelectedTerrain={this.changeTerrainForPreview}
