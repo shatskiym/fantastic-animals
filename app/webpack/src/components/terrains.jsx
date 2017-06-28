@@ -268,6 +268,28 @@ const ConfigureFieldsButton = React.createClass({
   }
 })
 
+const BoardContainer = React.createClass({
+  render() {
+    return (
+      <div className='board-container'>
+        <Terrains
+         changeSelectedTerrain={this.props.changeTerrainForPreview}
+         setMode={this.props.setMode}
+         meetFields={this.props.meetingFields}
+         updateFields={this.props.updateSelectedFields}
+         field={this.props.field}/>
+        <InfoBoard
+         type={this.props.terrainForPreview.terrainType}
+         diff={this.props.terrainForPreview.terrainDiff}
+         setMode={this.props.setMode}
+         animalsSearch={this.props.animalsSearch}
+         searchAnimalsButton={this.props.pressSearchAnimalsButton}
+         resetDiceResult={this.props.resetDiceResult}/>
+      </div>
+    )
+  }
+})
+
 const Board = React.createClass({ //Main element
   componentDidMount: function() {
     this.props.createField(this.createTerrainsArray());
@@ -303,21 +325,17 @@ const Board = React.createClass({ //Main element
         <ConfigureFieldsButton
           setMode = {this.props.setMode}
           setMeetingFields = {this.setMeetingFields}/>
-        <div className='board-container'>
-          <Terrains
-           changeSelectedTerrain={this.changeTerrainForPreview}
-           setMode={this.props.setMode}
-           meetFields={this.props.meetingFields}
-           updateFields={this.updateSelectedFields}
-           field={this.props.field}/>
-          <InfoBoard
-           type={this.props.terrainForPreview.terrainType}
-           diff={this.props.terrainForPreview.terrainDiff}
-           setMode={this.props.setMode}
-           animalsSearch={this.props.animalsSearch}
-           searchAnimalsButton={this.props.pressSearchAnimalsButton}
-           resetDiceResult={this.props.resetDiceResult}/>
-        </div>
+        <BoardContainer
+          changeTerrainForPreview={this.changeTerrainForPreview}
+          setMode={this.props.setMode}
+          meetingFields={this.props.meetingFields}
+          updateSelectedFields={this.updateSelectedFields}
+          field={this.props.field}
+          terrainForPreview={this.props.terrainForPreview}
+          animalsSearch={this.props.animalsSearch}
+          pressSearchAnimalsButton={this.props.pressSearchAnimalsButton}
+          resetDiceResult={this.props.resetDiceResult}
+        />
       </div>
     )
   }

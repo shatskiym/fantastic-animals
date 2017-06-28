@@ -23694,6 +23694,29 @@ var ConfigureFieldsButton = _react2.default.createClass({
   }
 });
 
+var BoardContainer = _react2.default.createClass({
+  displayName: 'BoardContainer',
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'board-container' },
+      _react2.default.createElement(Terrains, {
+        changeSelectedTerrain: this.props.changeTerrainForPreview,
+        setMode: this.props.setMode,
+        meetFields: this.props.meetingFields,
+        updateFields: this.props.updateSelectedFields,
+        field: this.props.field }),
+      _react2.default.createElement(InfoBoard, {
+        type: this.props.terrainForPreview.terrainType,
+        diff: this.props.terrainForPreview.terrainDiff,
+        setMode: this.props.setMode,
+        animalsSearch: this.props.animalsSearch,
+        searchAnimalsButton: this.props.pressSearchAnimalsButton,
+        resetDiceResult: this.props.resetDiceResult })
+    );
+  }
+});
+
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
@@ -23734,23 +23757,17 @@ var Board = _react2.default.createClass({
       _react2.default.createElement(ConfigureFieldsButton, {
         setMode: this.props.setMode,
         setMeetingFields: this.setMeetingFields }),
-      _react2.default.createElement(
-        'div',
-        { className: 'board-container' },
-        _react2.default.createElement(Terrains, {
-          changeSelectedTerrain: this.changeTerrainForPreview,
-          setMode: this.props.setMode,
-          meetFields: this.props.meetingFields,
-          updateFields: this.updateSelectedFields,
-          field: this.props.field }),
-        _react2.default.createElement(InfoBoard, {
-          type: this.props.terrainForPreview.terrainType,
-          diff: this.props.terrainForPreview.terrainDiff,
-          setMode: this.props.setMode,
-          animalsSearch: this.props.animalsSearch,
-          searchAnimalsButton: this.props.pressSearchAnimalsButton,
-          resetDiceResult: this.props.resetDiceResult })
-      )
+      _react2.default.createElement(BoardContainer, {
+        changeTerrainForPreview: this.changeTerrainForPreview,
+        setMode: this.props.setMode,
+        meetingFields: this.props.meetingFields,
+        updateSelectedFields: this.updateSelectedFields,
+        field: this.props.field,
+        terrainForPreview: this.props.terrainForPreview,
+        animalsSearch: this.props.animalsSearch,
+        pressSearchAnimalsButton: this.props.pressSearchAnimalsButton,
+        resetDiceResult: this.props.resetDiceResult
+      })
     );
   }
 });
