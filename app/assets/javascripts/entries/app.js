@@ -23586,7 +23586,6 @@ var SearchAnimalsResult = _react2.default.createClass({
   displayName: 'SearchAnimalsResult',
 
   render: function render() {
-    var animalFinded = this.props.searchRes >= 2;
     return _react2.default.createElement(
       'div',
       null,
@@ -23597,7 +23596,7 @@ var SearchAnimalsResult = _react2.default.createClass({
         text: "Search result: " + this.props.searchRes
       }),
       _react2.default.createElement(LabelH4, {
-        text: "Animal is " + (animalFinded ? 'finded!' : 'not finded.')
+        text: "Animal is " + (this.props.animalFinded ? 'finded!' : 'not finded.')
       })
     );
   }
@@ -23621,7 +23620,8 @@ var SearchAnimalsContainer = _react2.default.createClass({
       }),
       this.props.animalsSearch.diceRolled && _react2.default.createElement(SearchAnimalsResult, {
         diceRes: this.props.animalsSearch.diceResult,
-        searchRes: this.props.animalsSearch.searchResult
+        searchRes: this.props.animalsSearch.searchResult,
+        animalFinded: this.props.animalsSearch.searchResult >= 2
       })
     );
   }

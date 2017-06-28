@@ -159,7 +159,6 @@ const FieldInfo = React.createClass({
 
 const SearchAnimalsResult = React.createClass({
   render: function() {
-    var animalFinded = this.props.searchRes >= 2;
     return (
       <div>
         <LabelH4
@@ -169,7 +168,7 @@ const SearchAnimalsResult = React.createClass({
           text = {"Search result: " + this.props.searchRes}
         />
         <LabelH4
-          text = {"Animal is " + (animalFinded ? 'finded!' : 'not finded.')}
+          text = {"Animal is " + (this.props.animalFinded ? 'finded!' : 'not finded.')}
         />
       </div>
     )
@@ -194,6 +193,7 @@ const SearchAnimalsContainer = React.createClass({
             <SearchAnimalsResult
               diceRes = {this.props.animalsSearch.diceResult}
               searchRes = {this.props.animalsSearch.searchResult}
+              animalFinded = {this.props.animalsSearch.searchResult >= 2}
             />
         }
       </div>
