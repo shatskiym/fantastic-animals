@@ -70,6 +70,8 @@
 "use strict";
 
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _react = __webpack_require__(25);
 
 var _react2 = _interopRequireDefault(_react);
@@ -88,11 +90,14 @@ var _redux = __webpack_require__(89);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var initState = {
   previewTerrain: {
     terrainDiff: '?',
     terrainType: '?'
-  }
+  },
+  meetingFields: []
 };
 
 function appReducer() {
@@ -100,21 +105,31 @@ function appReducer() {
   var action = arguments[1];
 
   if (action.type === 'CHANGE_TERRAIN_FOR_PREVIEW') {
-    return {
+    return _extends({}, state, {
       previewTerrain: {
         terrainDiff: action.payload.terrainDiff,
         terrainType: action.payload.terrainType
       }
-    };
+    });
+  } else if (action.type === 'ADD_NEW_MEETING_FIELD') {
+    return _extends({}, state, {
+      meetingFields: [].concat(_toConsumableArray(state.meetingFields), [action.payload])
+    });
+  } else if (action.type === 'REMOVE_MEETING_FIELD') {
+    var selectFields = state.meetingFields;
+    if (state.meetingFields.indexOf(action.payload) > -1) {
+      selectFields.splice(state.meetingFields.indexOf(action.payload), 1);
+    }
+    return _extends({}, state, {
+      meetingFields: selectFields
+    });
   }
   return state;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   var appStore = (0, _redux.createStore)(appReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
   var terrains = document.getElementById('board_react_container').getAttribute('data');
-
   _reactDom2.default.render(_react2.default.createElement(
     _reactRedux.Provider,
     { store: appStore },
@@ -23703,8 +23718,7 @@ var Board = _react2.default.createClass({
   //Main element
   getInitialState: function getInitialState() {
     return {
-      setMode: true,
-      selectedFields: []
+      setMode: true
     };
   },
   changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
@@ -23716,21 +23730,13 @@ var Board = _react2.default.createClass({
     });
   },
   updateSelectedFields: function updateSelectedFields(id, checked) {
-    var selected = this.state.selectedFields;
     if (checked) {
-      selected[selected.length] = id;
+      this.props.addNewSelectedField(id);
     } else {
-      var index = selected.indexOf(id);
-      if (index > -1) {
-        selected.splice(index, 1);
-      }
+      this.props.removeSelectedField(id);
     }
-    this.setState({
-      selectedFields: selected
-    });
   },
   render: function render() {
-    console.log(this.props.terrainForPreview);
     return _react2.default.createElement(
       'div',
       null,
@@ -23751,7 +23757,7 @@ var Board = _react2.default.createClass({
           data: this.props.data,
           changeSelectedTerrain: this.changeTerrainForPreview,
           setMode: this.state.setMode,
-          meetFields: this.state.selectedFields,
+          meetFields: this.props.meetingFields,
           updateFields: this.updateSelectedFields }),
         _react2.default.createElement(InfoBoard, { type: this.props.terrainForPreview.terrainType, diff: this.props.terrainForPreview.terrainDiff, setMode: this.state.setMode })
       )
@@ -23761,7 +23767,8 @@ var Board = _react2.default.createClass({
 
 exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
   return {
-    terrainForPreview: state.previewTerrain
+    terrainForPreview: state.previewTerrain,
+    meetingFields: state.meetingFields
   };
 }, function mapDispatchToProps(dispatch) {
   return {
@@ -23773,6 +23780,20 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
           terrainDiff: diff,
           terrainType: type
         }
+      });
+    },
+
+    addNewSelectedField: function addNewSelectedField(id) {
+      dispatch({
+        type: 'ADD_NEW_MEETING_FIELD',
+        payload: id
+      });
+    },
+
+    removeSelectedField: function removeSelectedField(id) {
+      dispatch({
+        type: 'REMOVE_MEETING_FIELD',
+        payload: id
       });
     }
 

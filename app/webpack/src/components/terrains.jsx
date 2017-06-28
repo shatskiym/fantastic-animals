@@ -275,7 +275,6 @@ const Board = React.createClass({ //Main element
   getInitialState: function() {
     return {
       setMode: true,
-      selectedFields: []
     }
   },
   changeTerrainForPreview: function(type, diff) {
@@ -287,21 +286,13 @@ const Board = React.createClass({ //Main element
     })
   },
   updateSelectedFields: function(id, checked) {
-    var selected = this.state.selectedFields;
     if (checked) {
-      selected[selected.length] = id;
+      this.props.addNewSelectedField(id);
     } else {
-      var index = selected.indexOf(id);
-      if (index > -1) {
-        selected.splice(index, 1);
-      }
+      this.props.removeSelectedField(id);
     }
-    this.setState({
-      selectedFields: selected
-    })
   },
   render: function() {
-    console.log(this.props.terrainForPreview);
     return (
       <div>
         <h2 className='field-title'>
@@ -315,8 +306,9 @@ const Board = React.createClass({ //Main element
            data={this.props.data}
            changeSelectedTerrain={this.changeTerrainForPreview}
            setMode={this.state.setMode}
-           meetFields={this.state.selectedFields}
-           updateFields={this.updateSelectedFields}></Terrains>
+           meetFields={this.props.meetingFields}
+           updateFields={this.updateSelectedFields}>
+          </Terrains>
           <InfoBoard type={this.props.terrainForPreview.terrainType} diff={this.props.terrainForPreview.terrainDiff} setMode={this.state.setMode}/>
         </div>
       </div>
@@ -327,7 +319,8 @@ const Board = React.createClass({ //Main element
 export default connect(
   function mapStateToProps (state) {
     return {
-      terrainForPreview: state.previewTerrain
+      terrainForPreview: state.previewTerrain,
+      meetingFields: state.meetingFields
     }
   },
 
@@ -341,6 +334,20 @@ export default connect(
             terrainDiff: diff,
             terrainType: type
           }
+        })
+      },
+
+      addNewSelectedField: function(id) {
+        dispatch({
+          type: 'ADD_NEW_MEETING_FIELD',
+          payload: id
+        })
+      },
+
+      removeSelectedField: function (id) {
+        dispatch({
+          type: 'REMOVE_MEETING_FIELD',
+          payload: id
         })
       }
 
