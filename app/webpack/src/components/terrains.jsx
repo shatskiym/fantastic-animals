@@ -272,18 +272,11 @@ var InfoBoard = React.createClass({
 });
 
 const Board = React.createClass({ //Main element
-  getInitialState: function() {
-    return {
-      setMode: true,
-    }
-  },
   changeTerrainForPreview: function(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
   },
-  setFields: function(){
-    this.setState({
-      setMode: false
-    })
+  setMeetingFields: function(){
+    this.props.finishSetMeetingMode();
   },
   updateSelectedFields: function(id, checked) {
     if (checked) {
@@ -299,17 +292,17 @@ const Board = React.createClass({ //Main element
           Board
         </h2>
         {
-          this.state.setMode && <button className='btn btn-primary' onClick={this.setFields}>Configure Fields</button>
+          this.props.setMode && <button className='btn btn-primary' onClick={this.setMeetingFields}>Configure Fields</button>
         }
         <div className='board-container'>
           <Terrains
            data={this.props.data}
            changeSelectedTerrain={this.changeTerrainForPreview}
-           setMode={this.state.setMode}
+           setMode={this.props.setMode}
            meetFields={this.props.meetingFields}
            updateFields={this.updateSelectedFields}>
           </Terrains>
-          <InfoBoard type={this.props.terrainForPreview.terrainType} diff={this.props.terrainForPreview.terrainDiff} setMode={this.state.setMode}/>
+          <InfoBoard type={this.props.terrainForPreview.terrainType} diff={this.props.terrainForPreview.terrainDiff} setMode={this.props.setMode}/>
         </div>
       </div>
     )
@@ -320,7 +313,8 @@ export default connect(
   function mapStateToProps (state) {
     return {
       terrainForPreview: state.previewTerrain,
-      meetingFields: state.meetingFields
+      meetingFields: state.meetingFields,
+      setMode: state.choosingMeetingFieldsMode
     }
   },
 
@@ -348,6 +342,12 @@ export default connect(
         dispatch({
           type: 'REMOVE_MEETING_FIELD',
           payload: id
+        })
+      },
+
+      finishSetMeetingMode: function () {
+        dispatch({
+          type: 'FINISH_SET_MEETING_FILEDS_MODE'
         })
       }
 

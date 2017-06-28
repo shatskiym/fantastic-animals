@@ -97,7 +97,8 @@ var initState = {
     terrainDiff: '?',
     terrainType: '?'
   },
-  meetingFields: []
+  meetingFields: [],
+  choosingMeetingFieldsMode: true
 };
 
 function appReducer() {
@@ -122,6 +123,10 @@ function appReducer() {
     }
     return _extends({}, state, {
       meetingFields: selectFields
+    });
+  } else if (action.type === 'FINISH_SET_MEETING_FILEDS_MODE') {
+    return _extends({}, state, {
+      choosingMeetingFieldsMode: false
     });
   }
   return state;
@@ -23716,18 +23721,11 @@ var InfoBoard = _react2.default.createClass({
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
-  getInitialState: function getInitialState() {
-    return {
-      setMode: true
-    };
-  },
   changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
   },
-  setFields: function setFields() {
-    this.setState({
-      setMode: false
-    });
+  setMeetingFields: function setMeetingFields() {
+    this.props.finishSetMeetingMode();
   },
   updateSelectedFields: function updateSelectedFields(id, checked) {
     if (checked) {
@@ -23745,9 +23743,9 @@ var Board = _react2.default.createClass({
         { className: 'field-title' },
         'Board'
       ),
-      this.state.setMode && _react2.default.createElement(
+      this.props.setMode && _react2.default.createElement(
         'button',
-        { className: 'btn btn-primary', onClick: this.setFields },
+        { className: 'btn btn-primary', onClick: this.setMeetingFields },
         'Configure Fields'
       ),
       _react2.default.createElement(
@@ -23756,10 +23754,10 @@ var Board = _react2.default.createClass({
         _react2.default.createElement(Terrains, {
           data: this.props.data,
           changeSelectedTerrain: this.changeTerrainForPreview,
-          setMode: this.state.setMode,
+          setMode: this.props.setMode,
           meetFields: this.props.meetingFields,
           updateFields: this.updateSelectedFields }),
-        _react2.default.createElement(InfoBoard, { type: this.props.terrainForPreview.terrainType, diff: this.props.terrainForPreview.terrainDiff, setMode: this.state.setMode })
+        _react2.default.createElement(InfoBoard, { type: this.props.terrainForPreview.terrainType, diff: this.props.terrainForPreview.terrainDiff, setMode: this.props.setMode })
       )
     );
   }
@@ -23768,7 +23766,8 @@ var Board = _react2.default.createClass({
 exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
   return {
     terrainForPreview: state.previewTerrain,
-    meetingFields: state.meetingFields
+    meetingFields: state.meetingFields,
+    setMode: state.choosingMeetingFieldsMode
   };
 }, function mapDispatchToProps(dispatch) {
   return {
@@ -23794,6 +23793,12 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
       dispatch({
         type: 'REMOVE_MEETING_FIELD',
         payload: id
+      });
+    },
+
+    finishSetMeetingMode: function finishSetMeetingMode() {
+      dispatch({
+        type: 'FINISH_SET_MEETING_FILEDS_MODE'
       });
     }
 

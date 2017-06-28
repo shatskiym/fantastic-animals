@@ -9,7 +9,8 @@ const initState = {
     terrainDiff: '?',
     terrainType: '?'
   },
-  meetingFields: []
+  meetingFields: [],
+  choosingMeetingFieldsMode: true
 };
 
 function appReducer (state = initState, action) {
@@ -37,6 +38,11 @@ function appReducer (state = initState, action) {
     return {
       ...state,
       meetingFields: selectFields
+    }
+  } else if (action.type === 'FINISH_SET_MEETING_FILEDS_MODE') {
+    return {
+      ...state,
+      choosingMeetingFieldsMode: false
     }
   }
   return state;
