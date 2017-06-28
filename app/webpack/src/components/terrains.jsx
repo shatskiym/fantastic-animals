@@ -189,26 +189,8 @@ var SearchAnimalsResult = React.createClass({
 });
 
 var SearchAnimalsContainer = React.createClass({
-  componentWillReceiveProps: function() {
-    this.setState({
-      diceResult: 0,
-      searchResult: 0,
-      buttonPressed: false
-    });
-  },
-  getInitialState: function() {
-    return {
-      diceResult: 0,
-      searchResult: 0,
-      buttonPressed: false
-    }
-  },
   buttonPress: function(diceRes, searchRes) {
-    this.setState({
-      diceResult: diceRes,
-      searchResult: searchRes,
-      buttonPressed: true
-    });
+    this.props.searchAnimalsButton(diceRes, searchRes);
   },
   render:  function() {
     return (
@@ -218,10 +200,10 @@ var SearchAnimalsContainer = React.createClass({
           search = {this.buttonPress}
         />
         {
-          this.state.buttonPressed &&
+          this.props.animalsSearch.diceRolled &&
             <SearchAnimalsResult
-              diceRes = {this.state.diceResult}
-              searchRes = {this.state.searchResult}
+              diceRes = {this.props.animalsSearch.diceResult}
+              searchRes = {this.props.animalsSearch.searchResult}
             />
         }
       </div>
@@ -264,6 +246,9 @@ var InfoBoard = React.createClass({
           (this.props.diff && !this.props.setMode) &&
             <SearchAnimalsContainer
               diff = {this.props.diff}
+              animalsSearch = {this.props.animalsSearch}
+              searchAnimalsButton = {this.props.searchAnimalsButton}
+              resetDiceResult={this.props.resetDiceResult}
             />
         }
       </div>
@@ -274,6 +259,9 @@ var InfoBoard = React.createClass({
 const Board = React.createClass({ //Main element
   changeTerrainForPreview: function(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
+    if (this.props.animalsSearch.diceRolled) {
+      this.props.resetDiceResult();
+    }
   },
   setMeetingFields: function(){
     this.props.finishSetMeetingMode();
@@ -300,9 +288,14 @@ const Board = React.createClass({ //Main element
            changeSelectedTerrain={this.changeTerrainForPreview}
            setMode={this.props.setMode}
            meetFields={this.props.meetingFields}
-           updateFields={this.updateSelectedFields}>
-          </Terrains>
-          <InfoBoard type={this.props.terrainForPreview.terrainType} diff={this.props.terrainForPreview.terrainDiff} setMode={this.props.setMode}/>
+           updateFields={this.updateSelectedFields}/>
+          <InfoBoard
+           type={this.props.terrainForPreview.terrainType}
+           diff={this.props.terrainForPreview.terrainDiff}
+           setMode={this.props.setMode}
+           animalsSearch={this.props.animalsSearch}
+           searchAnimalsButton={this.props.pressSearchAnimalsButton}
+           resetDiceResult={this.props.resetDiceResult}/>
         </div>
       </div>
     )
@@ -314,7 +307,8 @@ export default connect(
     return {
       terrainForPreview: state.previewTerrain,
       meetingFields: state.meetingFields,
-      setMode: state.choosingMeetingFieldsMode
+      setMode: state.choosingMeetingFieldsMode,
+      animalsSearch: state.animalsSearch
     }
   },
 
@@ -349,9 +343,24 @@ export default connect(
         dispatch({
           type: 'FINISH_SET_MEETING_FILEDS_MODE'
         })
+      },
+
+      pressSearchAnimalsButton: function(diceRes, searchRes) {
+        dispatch({
+          type: 'ROLL_DICE',
+          payload: {
+            diceRes: diceRes,
+            searchRes: searchRes
+          }
+        })
+      },
+
+      resetDiceResult: function() {
+        dispatch({
+          type: 'RESET_DICE_RESULT'
+        })
       }
 
     }
   }
-
 )(Board);

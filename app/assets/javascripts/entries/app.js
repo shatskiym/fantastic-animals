@@ -23620,26 +23620,8 @@ var SearchAnimalsResult = _react2.default.createClass({
 var SearchAnimalsContainer = _react2.default.createClass({
   displayName: 'SearchAnimalsContainer',
 
-  componentWillReceiveProps: function componentWillReceiveProps() {
-    this.setState({
-      diceResult: 0,
-      searchResult: 0,
-      buttonPressed: false
-    });
-  },
-  getInitialState: function getInitialState() {
-    return {
-      diceResult: 0,
-      searchResult: 0,
-      buttonPressed: false
-    };
-  },
   buttonPress: function buttonPress(diceRes, searchRes) {
-    this.setState({
-      diceResult: diceRes,
-      searchResult: searchRes,
-      buttonPressed: true
-    });
+    this.props.searchAnimalsButton(diceRes, searchRes);
   },
   render: function render() {
     return _react2.default.createElement(
@@ -23649,9 +23631,9 @@ var SearchAnimalsContainer = _react2.default.createClass({
         diff: this.props.diff,
         search: this.buttonPress
       }),
-      this.state.buttonPressed && _react2.default.createElement(SearchAnimalsResult, {
-        diceRes: this.state.diceResult,
-        searchRes: this.state.searchResult
+      this.props.animalsSearch.diceRolled && _react2.default.createElement(SearchAnimalsResult, {
+        diceRes: this.props.animalsSearch.diceResult,
+        searchRes: this.props.animalsSearch.searchResult
       })
     );
   }
@@ -23691,7 +23673,10 @@ var InfoBoard = _react2.default.createClass({
         diff: this.props.diff
       }),
       this.props.diff && !this.props.setMode && _react2.default.createElement(SearchAnimalsContainer, {
-        diff: this.props.diff
+        diff: this.props.diff,
+        animalsSearch: this.props.animalsSearch,
+        searchAnimalsButton: this.props.searchAnimalsButton,
+        resetDiceResult: this.props.resetDiceResult
       })
     );
   }
@@ -23702,6 +23687,9 @@ var Board = _react2.default.createClass({
   //Main element
   changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
+    if (this.props.animalsSearch.diceRolled) {
+      this.props.resetDiceResult();
+    }
   },
   setMeetingFields: function setMeetingFields() {
     this.props.finishSetMeetingMode();
@@ -23736,7 +23724,13 @@ var Board = _react2.default.createClass({
           setMode: this.props.setMode,
           meetFields: this.props.meetingFields,
           updateFields: this.updateSelectedFields }),
-        _react2.default.createElement(InfoBoard, { type: this.props.terrainForPreview.terrainType, diff: this.props.terrainForPreview.terrainDiff, setMode: this.props.setMode })
+        _react2.default.createElement(InfoBoard, {
+          type: this.props.terrainForPreview.terrainType,
+          diff: this.props.terrainForPreview.terrainDiff,
+          setMode: this.props.setMode,
+          animalsSearch: this.props.animalsSearch,
+          searchAnimalsButton: this.props.pressSearchAnimalsButton,
+          resetDiceResult: this.props.resetDiceResult })
       )
     );
   }
@@ -23746,7 +23740,8 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
   return {
     terrainForPreview: state.previewTerrain,
     meetingFields: state.meetingFields,
-    setMode: state.choosingMeetingFieldsMode
+    setMode: state.choosingMeetingFieldsMode,
+    animalsSearch: state.animalsSearch
   };
 }, function mapDispatchToProps(dispatch) {
   return {
@@ -23778,6 +23773,22 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
     finishSetMeetingMode: function finishSetMeetingMode() {
       dispatch({
         type: 'FINISH_SET_MEETING_FILEDS_MODE'
+      });
+    },
+
+    pressSearchAnimalsButton: function pressSearchAnimalsButton(diceRes, searchRes) {
+      dispatch({
+        type: 'ROLL_DICE',
+        payload: {
+          diceRes: diceRes,
+          searchRes: searchRes
+        }
+      });
+    },
+
+    resetDiceResult: function resetDiceResult() {
+      dispatch({
+        type: 'RESET_DICE_RESULT'
       });
     }
 
@@ -25148,10 +25159,14 @@ var _setMeetingFieldsMode = __webpack_require__(229);
 
 var _setMeetingFieldsMode2 = _interopRequireDefault(_setMeetingFieldsMode);
 
+var _searchAnimals = __webpack_require__(230);
+
+var _searchAnimals2 = _interopRequireDefault(_searchAnimals);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default
+  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default
 });
 
 /***/ }),
@@ -25232,6 +25247,39 @@ function choosingMeetingFieldsMode() {
 
   if (action.type === 'FINISH_SET_MEETING_FILEDS_MODE') {
     return false;
+  }
+  return state;
+}
+
+/***/ }),
+/* 230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = animalsSearch;
+var initState = {
+  diceResult: 0,
+  searchResult: 0,
+  diceRolled: false
+};
+
+function animalsSearch() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+  var action = arguments[1];
+
+  if (action.type === 'ROLL_DICE') {
+    return {
+      diceResult: action.payload.diceRes,
+      searchResult: action.payload.searchRes,
+      diceRolled: true
+    };
+  } else if (action.type === 'RESET_DICE_RESULT') {
+    return initState;
   }
   return state;
 }
