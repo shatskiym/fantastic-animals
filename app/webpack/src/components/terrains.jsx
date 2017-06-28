@@ -252,12 +252,18 @@ const InfoBoard = React.createClass({
         }
         {
           (this.props.diff && !this.props.setMode) &&
-            <SearchAnimalsContainer
-              diff = {this.props.diff}
-              animalsSearch = {this.props.animalsSearch}
-              searchAnimalsButton = {this.props.searchAnimalsButton}
-              resetDiceResult={this.props.resetDiceResult}
-            />
+          <SearchAnimalsContainer
+            diff = {this.props.diff}
+            animalsSearch = {this.props.animalsSearch}
+            searchAnimalsButton = {this.props.searchAnimalsButton}
+            resetDiceResult={this.props.resetDiceResult}
+          />
+        }
+        {
+          this.props.setMode &&
+          <ConfigureFieldsButton
+            setMode = {this.props.setMode}
+            setMeetingFields = {this.props.finishSetMeetingMode}/>
         }
       </div>
     )
@@ -304,7 +310,8 @@ const BoardContainer = React.createClass({
          setMode={this.props.setMode}
          animalsSearch={this.props.animalsSearch}
          searchAnimalsButton={this.props.pressSearchAnimalsButton}
-         resetDiceResult={this.props.resetDiceResult}/>
+         resetDiceResult={this.props.resetDiceResult}
+         finishSetMeetingMode={this.props.finishSetMeetingMode}/>
       </div>
     )
   }
@@ -326,9 +333,6 @@ const Board = React.createClass({ //Main element
       this.props.resetDiceResult();
     }
   },
-  setMeetingFields: function(){
-    this.props.finishSetMeetingMode();
-  },
   updateSelectedFields: function(id, checked) {
     if (checked) {
       this.props.addNewSelectedField(id);
@@ -342,9 +346,6 @@ const Board = React.createClass({ //Main element
         <LabelH2
           text = 'Board'
           classes = 'field-title'/>
-        <ConfigureFieldsButton
-          setMode = {this.props.setMode}
-          setMeetingFields = {this.setMeetingFields}/>
         <BoardContainer
           changeTerrainForPreview={this.changeTerrainForPreview}
           setMode={this.props.setMode}
@@ -355,6 +356,7 @@ const Board = React.createClass({ //Main element
           animalsSearch={this.props.animalsSearch}
           pressSearchAnimalsButton={this.props.pressSearchAnimalsButton}
           resetDiceResult={this.props.resetDiceResult}
+          finishSetMeetingMode={this.props.finishSetMeetingMode}
         />
       </div>
     )

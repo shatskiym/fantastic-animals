@@ -23682,7 +23682,10 @@ var InfoBoard = _react2.default.createClass({
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.searchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult
-      })
+      }),
+      this.props.setMode && _react2.default.createElement(ConfigureFieldsButton, {
+        setMode: this.props.setMode,
+        setMeetingFields: this.props.finishSetMeetingMode })
     );
   }
 });
@@ -23731,7 +23734,8 @@ var BoardContainer = _react2.default.createClass({
         setMode: this.props.setMode,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.pressSearchAnimalsButton,
-        resetDiceResult: this.props.resetDiceResult })
+        resetDiceResult: this.props.resetDiceResult,
+        finishSetMeetingMode: this.props.finishSetMeetingMode })
     );
   }
 });
@@ -23756,9 +23760,6 @@ var Board = _react2.default.createClass({
       this.props.resetDiceResult();
     }
   },
-  setMeetingFields: function setMeetingFields() {
-    this.props.finishSetMeetingMode();
-  },
   updateSelectedFields: function updateSelectedFields(id, checked) {
     if (checked) {
       this.props.addNewSelectedField(id);
@@ -23773,9 +23774,6 @@ var Board = _react2.default.createClass({
       _react2.default.createElement(LabelH2, {
         text: 'Board',
         classes: 'field-title' }),
-      _react2.default.createElement(ConfigureFieldsButton, {
-        setMode: this.props.setMode,
-        setMeetingFields: this.setMeetingFields }),
       _react2.default.createElement(BoardContainer, {
         changeTerrainForPreview: this.changeTerrainForPreview,
         setMode: this.props.setMode,
@@ -23785,7 +23783,8 @@ var Board = _react2.default.createClass({
         terrainForPreview: this.props.terrainForPreview,
         animalsSearch: this.props.animalsSearch,
         pressSearchAnimalsButton: this.props.pressSearchAnimalsButton,
-        resetDiceResult: this.props.resetDiceResult
+        resetDiceResult: this.props.resetDiceResult,
+        finishSetMeetingMode: this.props.finishSetMeetingMode
       })
     );
   }
