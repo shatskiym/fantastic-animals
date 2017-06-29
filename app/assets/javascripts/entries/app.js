@@ -11416,7 +11416,7 @@ var TerrainContainer = _react2.default.createClass({
 
   handleClick: function handleClick() {
     if (this.props.changeSelectedTerrain) {
-      this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff);
+      this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff, this.props.index);
     }
     if (this.props.charSelected && this.props.moveCharacter) {
       this.props.moveCharacter(this.props.styleProps, this.props.index);
@@ -23673,6 +23673,7 @@ var BoardContainer = _react2.default.createClass({
       _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
+        number: this.props.terrainForPreview.terrainNumber,
         modes: this.props.modes,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.pressSearchAnimalsButton,
@@ -23722,8 +23723,8 @@ var Board = _react2.default.createClass({
     };
     return terrs;
   },
-  changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
-    this.props.changeTerrainForPreview(diff, type);
+  changeTerrainForPreview: function changeTerrainForPreview(type, diff, number) {
+    this.props.changeTerrainForPreview(diff, type, number);
     if (this.props.animalsSearch.diceRolled) {
       this.props.resetDiceResult();
     }
@@ -23774,12 +23775,13 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
 }, function mapDispatchToProps(dispatch) {
   return {
 
-    changeTerrainForPreview: function changeTerrainForPreview(diff, type) {
+    changeTerrainForPreview: function changeTerrainForPreview(diff, type, number) {
       dispatch({
         type: 'CHANGE_TERRAIN_FOR_PREVIEW',
         payload: {
           terrainDiff: diff,
-          terrainType: type
+          terrainType: type,
+          terrainNumber: number
         }
       });
     },
@@ -25290,6 +25292,9 @@ var FieldInfo = _react2.default.createClass({
       }),
       _react2.default.createElement(_helpers.LabelH4, {
         text: "Terrain difficult: " + this.props.diff
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Terrain number: " + this.props.number
       })
     );
   }
@@ -25366,13 +25371,15 @@ var TerrainInfoPartOfBoard = _react2.default.createClass({
       }),
       this.props.diff && _react2.default.createElement(FieldInfo, {
         type: this.props.type,
-        diff: this.props.diff
+        diff: this.props.diff,
+        number: this.props.number
       }),
       this.props.diff && !this.props.setMode && _react2.default.createElement(SearchAnimalsContainer, {
         diff: this.props.diff,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.searchAnimalsButton,
-        resetDiceResult: this.props.resetDiceResult
+        resetDiceResult: this.props.resetDiceResult,
+        character: this.props.character
       }),
       this.props.setMode && _react2.default.createElement(ConfigureFieldsButton, {
         setMode: this.props.setMode,
@@ -25412,11 +25419,13 @@ var InfoBoard = _react2.default.createClass({
       _react2.default.createElement(TerrainInfoPartOfBoard, {
         type: this.props.type,
         diff: this.props.diff,
+        number: this.props.number,
         setMode: this.props.modes.setMeetingFieldsMode,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.searchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,
-        setMeetingFields: this.props.finishSetMeetingMode
+        setMeetingFields: this.props.finishSetMeetingMode,
+        character: this.props.character
       }),
       this.props.modes.characterChoosenMode && _react2.default.createElement(CharacterInfoPartOfBoard, {
         character: this.props.character,
@@ -25499,7 +25508,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = previewTerrain;
 var initState = {
   terrainDiff: '?',
-  terrainType: '?'
+  terrainType: '?',
+  terrainNumber: 0
 };
 
 function previewTerrain() {
@@ -25509,7 +25519,8 @@ function previewTerrain() {
   if (action.type === 'CHANGE_TERRAIN_FOR_PREVIEW') {
     return {
       terrainDiff: action.payload.terrainDiff,
-      terrainType: action.payload.terrainType
+      terrainType: action.payload.terrainType,
+      terrainNumber: action.payload.terrainNumber
     };
   }
   return state;

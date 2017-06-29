@@ -35,6 +35,9 @@ const FieldInfo = React.createClass({
         <LabelH4
           text = {"Terrain difficult: "+this.props.diff}
         />
+        <LabelH4
+          text = {"Terrain number: "+this.props.number}
+        />
       </div>
     )
   }
@@ -67,6 +70,7 @@ const SearchAnimalsContainer = React.createClass({
   render:  function() {
     return (
       <div>
+
         <SearchAnimalsButton
           diff = {this.props.diff}
           searchAnimals = {this.buttonPress}
@@ -108,6 +112,7 @@ const TerrainInfoPartOfBoard = React.createClass({
           <FieldInfo
             type = {this.props.type}
             diff = {this.props.diff}
+            number = {this.props.number}
           />
         }
         {
@@ -117,6 +122,7 @@ const TerrainInfoPartOfBoard = React.createClass({
             animalsSearch = {this.props.animalsSearch}
             searchAnimalsButton = {this.props.searchAnimalsButton}
             resetDiceResult={this.props.resetDiceResult}
+            character= {this.props.character}
           />
         }
         {
@@ -140,7 +146,7 @@ const CharacterInfoPartOfBoard = React.createClass({
         <LabelH4
           text= {'Character is on ' + this.props.character.terrain + ' position.'}
         />
-        <button className='btn btn-primary' onClick={this.props.deselectCharacter}>Deselect Character</button> 
+        <button className='btn btn-primary' onClick={this.props.deselectCharacter}>Deselect Character</button>
       </div>
     )
   }
@@ -153,11 +159,13 @@ const InfoBoard = React.createClass({
         <TerrainInfoPartOfBoard
           type= {this.props.type}
           diff= {this.props.diff}
+          number={this.props.number}
           setMode= {this.props.modes.setMeetingFieldsMode}
           animalsSearch = {this.props.animalsSearch}
           searchAnimalsButton = {this.props.searchAnimalsButton}
           resetDiceResult={this.props.resetDiceResult}
           setMeetingFields = {this.props.finishSetMeetingMode}
+          character= {this.props.character}
         />
         {
           this.props.modes.characterChoosenMode &&

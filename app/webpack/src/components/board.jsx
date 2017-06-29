@@ -20,6 +20,7 @@ const BoardContainer = React.createClass({
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
+         number={this.props.terrainForPreview.terrainNumber}
          modes={this.props.modes}
          animalsSearch={this.props.animalsSearch}
          searchAnimalsButton={this.props.pressSearchAnimalsButton}
@@ -67,8 +68,8 @@ const Board = React.createClass({ //Main element
     };
     return terrs;
   },
-  changeTerrainForPreview: function(type, diff) {
-    this.props.changeTerrainForPreview(diff, type);
+  changeTerrainForPreview: function(type, diff, number) {
+    this.props.changeTerrainForPreview(diff, type, number);
     if (this.props.animalsSearch.diceRolled) {
       this.props.resetDiceResult();
     }
@@ -122,12 +123,13 @@ export default connect(
   function mapDispatchToProps (dispatch) {
     return {
 
-      changeTerrainForPreview: function(diff, type){
+      changeTerrainForPreview: function(diff, type, number){
         dispatch({
           type: 'CHANGE_TERRAIN_FOR_PREVIEW',
           payload: {
             terrainDiff: diff,
-            terrainType: type
+            terrainType: type,
+            terrainNumber: number
           }
         })
       },

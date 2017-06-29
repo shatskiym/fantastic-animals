@@ -66,7 +66,7 @@ const Terrains = React.createClass({
 const TerrainContainer = React.createClass({
   handleClick: function() {
     if (this.props.changeSelectedTerrain){
-      this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
+      this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff, this.props.index)
     }
     if (this.props.charSelected && this.props.moveCharacter) {
       this.props.moveCharacter(this.props.styleProps, this.props.index);
