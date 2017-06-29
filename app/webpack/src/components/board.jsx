@@ -13,7 +13,8 @@ const BoardContainer = React.createClass({
          setMode={this.props.setMode}
          meetFields={this.props.meetingFields}
          updateFields={this.props.updateSelectedFields}
-         field={this.props.field}/>
+         field={this.props.field}
+         character={this.props.character}/>
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
@@ -31,6 +32,9 @@ const Board = React.createClass({ //Main element
   hexHeight: 100,
   generalOffsetLeft: 30,
   offsetLeft: 85,
+  componentWillMount: function(){
+    this.props.createField(this.createTerrainsArray());
+  },
   topValue: function(index) {
     if (index % 10 > 4) {
       return ((index % 5) * this.hexHeight + this.hexHeight / 2);
@@ -42,9 +46,6 @@ const Board = React.createClass({ //Main element
       return this.generalOffsetLeft;
     }
     return ((Math.floor(index / 5)) * this.offsetLeft + this.generalOffsetLeft);
-  },
-  componentDidMount: function() {
-    this.props.createField(this.createTerrainsArray());
   },
   createTerrainsArray: function() {
     var terrs = [];
@@ -92,6 +93,7 @@ const Board = React.createClass({ //Main element
           pressSearchAnimalsButton={this.props.pressSearchAnimalsButton}
           resetDiceResult={this.props.resetDiceResult}
           finishSetMeetingMode={this.props.finishSetMeetingMode}
+          character={this.props.character}
         />
       </div>
     )
@@ -105,7 +107,8 @@ export default connect(
       meetingFields: state.meetingFields,
       setMode: state.choosingMeetingFieldsMode,
       animalsSearch: state.animalsSearch,
-      field: state.field
+      field: state.field,
+      character: state.character
     }
   },
 

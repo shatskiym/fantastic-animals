@@ -4,6 +4,7 @@
 
 import React from 'react'
 import { LabelH4, LabelH2, MeetMarker } from './helpers.jsx'
+import { CharacterContainer } from './character.jsx'
 
 const Terrains = React.createClass({
   render: function() {
@@ -44,6 +45,10 @@ const Terrains = React.createClass({
               }
             })
           }
+          <CharacterContainer
+            character = {this.props.character}
+            field = {this.props.field}
+          />
         </div>
       </div>
     );
@@ -62,13 +67,13 @@ const TerrainContainer = React.createClass({
   render: function() {
     return (
       <Terrain
-        styleProps = {this.props.styleProps}
-        tType = {this.props.tType}
-        handleClick = {this.handleClick}
-        tDiff = {this.props.tDiff}
-        updateFields = {this.props.updateFields}
-        setMode = {this.props.setMode}
-        index = {this.props.index}/>
+      styleProps = {this.props.styleProps}
+      tType = {this.props.tType}
+      handleClick = {this.handleClick}
+      tDiff = {this.props.tDiff}
+      updateFields = {this.props.updateFields}
+      setMode = {this.props.setMode}
+      index = {this.props.index}/>
     )
   }
 });
