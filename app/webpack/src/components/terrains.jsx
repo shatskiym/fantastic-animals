@@ -47,7 +47,6 @@ const Terrains = React.createClass({
           }
           <CharacterContainer
             character = {this.props.character}
-            field = {this.props.field}
           />
         </div>
       </div>

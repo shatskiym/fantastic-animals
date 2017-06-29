@@ -11395,8 +11395,7 @@ var Terrains = _react2.default.createClass({
           }
         }),
         _react2.default.createElement(_character.CharacterContainer, {
-          character: this.props.character,
-          field: this.props.field
+          character: this.props.character
         })
       )
     );
@@ -25176,23 +25175,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var CharacterContainer = _react2.default.createClass({
   displayName: 'CharacterContainer',
 
-  topVal: function topVal() {
-    if (this.props.field.length) {
-      return this.props.field[this.props.character.position].styleProps.top;
-    }
-    return 0;
-    // return this.props.field[this.props.character.position].styleProps.top;
-  },
-  leftVal: function leftVal() {
-    if (this.props.field.length) {
-      return this.props.field[this.props.character.position].styleProps.left;
-    }
-    return 0;
-    // return this.props.field[this.props.character.position].styleProps.left;
-  },
   render: function render() {
     return _react2.default.createElement(Character, {
-      styles: { top: this.topVal(), left: this.leftVal() }
+      styles: this.props.character.styleProps
     });
   }
 });
@@ -25566,21 +25551,23 @@ function field() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 exports.default = character;
 var initState = {
-  position: 0
+  terrain: 0,
+  styleProps: {
+    top: 0,
+    left: 30
+  }
 };
 function character() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
   var action = arguments[1];
 
   if (action.type === 'MOVE_CHARACTER') {
-    return _extends({}, state, {
-      position: action.payload
-    });
+    return {
+      styleProps: action.payload.styleProps,
+      terrain: action.payload.terrain
+    };
   }
   return state;
 }
