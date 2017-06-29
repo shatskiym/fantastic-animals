@@ -15,7 +15,8 @@ const BoardContainer = React.createClass({
          updateFields={this.props.updateSelectedFields}
          field={this.props.field}
          character={this.props.character}
-         moveCharacter={this.props.moveCharacter}/>
+         moveCharacter={this.props.moveCharacter}
+         selectCharacter={this.props.selectCharacter}/>
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
@@ -85,7 +86,7 @@ const Board = React.createClass({ //Main element
           classes = 'field-title'/>
         <BoardContainer
           changeTerrainForPreview={this.changeTerrainForPreview}
-          setMode={this.props.setMode}
+          setMode={this.props.modes.setMeetingFieldsMode}
           meetingFields={this.props.meetingFields}
           updateSelectedFields={this.updateSelectedFields}
           field={this.props.field}
@@ -96,6 +97,7 @@ const Board = React.createClass({ //Main element
           finishSetMeetingMode={this.props.finishSetMeetingMode}
           character={this.props.character}
           moveCharacter={this.props.moveCharacter}
+          selectCharacter = {this.props.selectCharacter}
         />
       </div>
     )
@@ -107,7 +109,7 @@ export default connect(
     return {
       terrainForPreview: state.previewTerrain,
       meetingFields: state.meetingFields,
-      setMode: state.choosingMeetingFieldsMode,
+      modes: state.modes,
       animalsSearch: state.animalsSearch,
       field: state.field,
       character: state.character
@@ -177,6 +179,12 @@ export default connect(
             terrain: index,
             styleProps: styleProps
           }
+        })
+      },
+
+      selectCharacter: function() {
+        dispatch({
+          type: 'ENABLE_SELECT_CHARACTER_MODE'
         })
       }
     }

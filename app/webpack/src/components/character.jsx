@@ -5,6 +5,7 @@ const CharacterContainer = React.createClass({
     return (
       <Character
         styles = {this.props.character.styleProps}
+        selectCharacter = {this.props.selectCharacter}
       />
     )
   }
@@ -13,7 +14,7 @@ const CharacterContainer = React.createClass({
 const Character = React.createClass({
   render: function() {
     return (
-      <div className='character' style={this.props.styles}>
+      <div className='character' style={this.props.styles} onClick={this.props.selectCharacter}>
       </div>
     )
   }

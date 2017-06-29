@@ -50,6 +50,7 @@ const Terrains = React.createClass({
           { !this.props.setMode &&
             <CharacterContainer
               character = {this.props.character}
+              selectCharacter = {this.props.selectCharacter}
             />
           }
         </div>

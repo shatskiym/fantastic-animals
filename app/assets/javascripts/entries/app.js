@@ -11397,7 +11397,8 @@ var Terrains = _react2.default.createClass({
           }
         }),
         !this.props.setMode && _react2.default.createElement(_character.CharacterContainer, {
-          character: this.props.character
+          character: this.props.character,
+          selectCharacter: this.props.selectCharacter
         })
       )
     );
@@ -23661,7 +23662,8 @@ var BoardContainer = _react2.default.createClass({
         updateFields: this.props.updateSelectedFields,
         field: this.props.field,
         character: this.props.character,
-        moveCharacter: this.props.moveCharacter }),
+        moveCharacter: this.props.moveCharacter,
+        selectCharacter: this.props.selectCharacter }),
       _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
@@ -23734,7 +23736,7 @@ var Board = _react2.default.createClass({
         classes: 'field-title' }),
       _react2.default.createElement(BoardContainer, {
         changeTerrainForPreview: this.changeTerrainForPreview,
-        setMode: this.props.setMode,
+        setMode: this.props.modes.setMeetingFieldsMode,
         meetingFields: this.props.meetingFields,
         updateSelectedFields: this.updateSelectedFields,
         field: this.props.field,
@@ -23744,7 +23746,8 @@ var Board = _react2.default.createClass({
         resetDiceResult: this.props.resetDiceResult,
         finishSetMeetingMode: this.props.finishSetMeetingMode,
         character: this.props.character,
-        moveCharacter: this.props.moveCharacter
+        moveCharacter: this.props.moveCharacter,
+        selectCharacter: this.props.selectCharacter
       })
     );
   }
@@ -23754,7 +23757,7 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
   return {
     terrainForPreview: state.previewTerrain,
     meetingFields: state.meetingFields,
-    setMode: state.choosingMeetingFieldsMode,
+    modes: state.modes,
     animalsSearch: state.animalsSearch,
     field: state.field,
     character: state.character
@@ -23822,6 +23825,12 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
           terrain: index,
           styleProps: styleProps
         }
+      });
+    },
+
+    selectCharacter: function selectCharacter() {
+      dispatch({
+        type: 'ENABLE_SELECT_CHARACTER_MODE'
       });
     }
   };
@@ -25189,7 +25198,8 @@ var CharacterContainer = _react2.default.createClass({
 
   render: function render() {
     return _react2.default.createElement(Character, {
-      styles: this.props.character.styleProps
+      styles: this.props.character.styleProps,
+      selectCharacter: this.props.selectCharacter
     });
   }
 });
@@ -25198,7 +25208,7 @@ var Character = _react2.default.createClass({
   displayName: 'Character',
 
   render: function render() {
-    return _react2.default.createElement('div', { className: 'character', style: this.props.styles });
+    return _react2.default.createElement('div', { className: 'character', style: this.props.styles, onClick: this.props.selectCharacter });
   }
 });
 
@@ -25414,9 +25424,9 @@ var _meetingFields = __webpack_require__(232);
 
 var _meetingFields2 = _interopRequireDefault(_meetingFields);
 
-var _setMeetingFieldsMode = __webpack_require__(233);
+var _modes = __webpack_require__(237);
 
-var _setMeetingFieldsMode2 = _interopRequireDefault(_setMeetingFieldsMode);
+var _modes2 = _interopRequireDefault(_modes);
 
 var _searchAnimals = __webpack_require__(234);
 
@@ -25433,7 +25443,7 @@ var _character2 = _interopRequireDefault(_character);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default, field: _field2.default, character: _character2.default
+  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, modes: _modes2.default, animalsSearch: _searchAnimals2.default, field: _field2.default, character: _character2.default
 });
 
 /***/ }),
@@ -25496,29 +25506,7 @@ function meetingFields() {
 }
 
 /***/ }),
-/* 233 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = choosingMeetingFieldsMode;
-var initState = true;
-
-function choosingMeetingFieldsMode() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
-  var action = arguments[1];
-
-  if (action.type === 'FINISH_SET_MEETING_FILEDS_MODE') {
-    return false;
-  }
-  return state;
-}
-
-/***/ }),
+/* 233 */,
 /* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25600,6 +25588,41 @@ function character() {
       styleProps: action.payload.styleProps,
       terrain: action.payload.terrain
     };
+  }
+  return state;
+}
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = modes;
+var initState = {
+  setMeetingFieldsMode: true,
+  characterChoosenMode: false
+};
+
+function modes() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+  var action = arguments[1];
+
+  if (action.type === 'FINISH_SET_MEETING_FILEDS_MODE') {
+    return _extends({}, state, {
+      setMeetingFieldsMode: false
+    });
+  } else if (action.type === 'ENABLE_SELECT_CHARACTER_MODE') {
+    return _extends({}, state, {
+      characterChoosenMode: true
+    });
   }
   return state;
 }
