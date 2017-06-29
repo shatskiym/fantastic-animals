@@ -43,14 +43,15 @@ const Terrains = React.createClass({
                         setMode = {that.props.setMode}
                         updateFields = {that.props.updateFields}
                         styleProps = {terr.styleProps}
-                        changeSelectedTerrain = {that.props.changeSelectedTerrain}
-                        moveCharacter = {that.props.moveCharacter}/>;
+                        changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
               }
             })
           }
-          <CharacterContainer
-            character = {this.props.character}
-          />
+          { !this.props.setMode &&
+            <CharacterContainer
+              character = {this.props.character}
+            />
+          }
         </div>
       </div>
     );
@@ -62,7 +63,7 @@ const TerrainContainer = React.createClass({
     if (this.props.changeSelectedTerrain){
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
-    this.props.moveCharacter(this.props.styleProps, this.props.index);
+    this.props.moveCharacter && this.props.moveCharacter(this.props.styleProps, this.props.index);
   },
   render: function() {
     return (

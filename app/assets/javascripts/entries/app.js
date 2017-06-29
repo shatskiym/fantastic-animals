@@ -11393,11 +11393,10 @@ var Terrains = _react2.default.createClass({
               setMode: that.props.setMode,
               updateFields: that.props.updateFields,
               styleProps: terr.styleProps,
-              changeSelectedTerrain: that.props.changeSelectedTerrain,
-              moveCharacter: that.props.moveCharacter });
+              changeSelectedTerrain: that.props.changeSelectedTerrain });
           }
         }),
-        _react2.default.createElement(_character.CharacterContainer, {
+        !this.props.setMode && _react2.default.createElement(_character.CharacterContainer, {
           character: this.props.character
         })
       )
@@ -11414,7 +11413,7 @@ var TerrainContainer = _react2.default.createClass({
     if (this.props.changeSelectedTerrain) {
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff);
     }
-    this.props.moveCharacter(this.props.styleProps, this.props.index);
+    this.props.moveCharacter && this.props.moveCharacter(this.props.styleProps, this.props.index);
   },
   render: function render() {
     return _react2.default.createElement(Terrain, {
@@ -25241,7 +25240,7 @@ var ChosenField = _react2.default.createClass({
         'div',
         { className: 'info-terrain-container' },
         _react2.default.createElement(_terrains.TerrainContainer, {
-          styleProps: { top: 0, left: 0 },
+          styleProps: { top: 0, left: 30 },
           tType: this.props.type,
           tDiff: this.props.diff,
           setMode: this.props.setMode
