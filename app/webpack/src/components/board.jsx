@@ -21,11 +21,12 @@ const BoardContainer = React.createClass({
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
-         setMode={this.props.modes.setMeetingFieldsMode}
+         modes={this.props.modes}
          animalsSearch={this.props.animalsSearch}
          searchAnimalsButton={this.props.pressSearchAnimalsButton}
          resetDiceResult={this.props.resetDiceResult}
-         finishSetMeetingMode={this.props.finishSetMeetingMode}/>
+         finishSetMeetingMode={this.props.finishSetMeetingMode}
+         character={this.props.character}/>
       </div>
     )
   }

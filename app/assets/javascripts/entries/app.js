@@ -23678,11 +23678,12 @@ var BoardContainer = _react2.default.createClass({
       _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
-        setMode: this.props.modes.setMeetingFieldsMode,
+        modes: this.props.modes,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.pressSearchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,
-        finishSetMeetingMode: this.props.finishSetMeetingMode })
+        finishSetMeetingMode: this.props.finishSetMeetingMode,
+        character: this.props.character })
     );
   }
 });
@@ -25384,6 +25385,22 @@ var TerrainInfoPartOfBoard = _react2.default.createClass({
   }
 });
 
+var CharacterInfoPartOfBoard = _react2.default.createClass({
+  displayName: 'CharacterInfoPartOfBoard',
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'terrain-info-container' },
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: 'Character chosen!'
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: 'Character is on ' + this.props.character.terrain + ' position.'
+      })
+    );
+  }
+});
+
 var InfoBoard = _react2.default.createClass({
   displayName: 'InfoBoard',
 
@@ -25394,11 +25411,14 @@ var InfoBoard = _react2.default.createClass({
       _react2.default.createElement(TerrainInfoPartOfBoard, {
         type: this.props.type,
         diff: this.props.diff,
-        setMode: this.props.setMode,
+        setMode: this.props.modes.setMeetingFieldsMode,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.searchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,
         setMeetingFields: this.props.finishSetMeetingMode
+      }),
+      this.props.modes.characterChoosenMode && _react2.default.createElement(CharacterInfoPartOfBoard, {
+        character: this.props.character
       })
     );
   }

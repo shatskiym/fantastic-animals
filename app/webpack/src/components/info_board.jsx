@@ -130,6 +130,21 @@ const TerrainInfoPartOfBoard = React.createClass({
   }
 });
 
+const CharacterInfoPartOfBoard = React.createClass({
+  render(){
+    return (
+      <div className='terrain-info-container'>
+        <LabelH4
+          text= {'Character chosen!'}
+        />
+        <LabelH4
+          text= {'Character is on ' + this.props.character.terrain + ' position.'}
+        />
+      </div>
+    )
+  }
+})
+
 const InfoBoard = React.createClass({
   render: function() {
     return (
@@ -137,12 +152,18 @@ const InfoBoard = React.createClass({
         <TerrainInfoPartOfBoard
           type= {this.props.type}
           diff= {this.props.diff}
-          setMode= {this.props.setMode}
+          setMode= {this.props.modes.setMeetingFieldsMode}
           animalsSearch = {this.props.animalsSearch}
           searchAnimalsButton = {this.props.searchAnimalsButton}
           resetDiceResult={this.props.resetDiceResult}
           setMeetingFields = {this.props.finishSetMeetingMode}
         />
+        {
+          this.props.modes.characterChoosenMode &&
+          <CharacterInfoPartOfBoard
+            character= {this.props.character}
+          />
+        }
       </div>
     )
   }
