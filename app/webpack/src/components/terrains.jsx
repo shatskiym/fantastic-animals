@@ -25,8 +25,7 @@ const Terrains = React.createClass({
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}
                           moveCharacter = {that.props.moveCharacter}
                           selectCharacter={that.props.selectCharacter}
-                          charSelected = {that.props.modes.characterChoosenMode}
-                          deselectCharacter = {that.props.deselectCharacter}/>;
+                          charSelected = {that.props.modes.characterChoosenMode}/>;
                 } else {
                   return <TerrainContainer
                           tType = {terr.element}
@@ -37,8 +36,7 @@ const Terrains = React.createClass({
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}
                           moveCharacter = {that.props.moveCharacter}
                           selectCharacter={that.props.selectCharacter}
-                          charSelected = {that.props.modes.characterChoosenMode}
-                          deselectCharacter = {that.props.deselectCharacter}/>;
+                          charSelected = {that.props.modes.characterChoosenMode}/>;
                 }
               } else {
                 return <TerrainContainer
@@ -57,7 +55,6 @@ const Terrains = React.createClass({
             <CharacterContainer
               character = {this.props.character}
               selectCharacter = {this.props.selectCharacter}
-              deselectCharacter = {this.props.deselectCharacter}
             />
           }
         </div>
@@ -73,7 +70,6 @@ const TerrainContainer = React.createClass({
     }
     if (this.props.charSelected && this.props.moveCharacter) {
       this.props.moveCharacter(this.props.styleProps, this.props.index);
-      this.props.deselectCharacter();
     }
   },
   render: function() {

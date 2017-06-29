@@ -140,6 +140,7 @@ const CharacterInfoPartOfBoard = React.createClass({
         <LabelH4
           text= {'Character is on ' + this.props.character.terrain + ' position.'}
         />
+        <button className='btn btn-primary' onClick={this.props.deselectCharacter}>Deselect Character</button> 
       </div>
     )
   }
@@ -162,6 +163,7 @@ const InfoBoard = React.createClass({
           this.props.modes.characterChoosenMode &&
           <CharacterInfoPartOfBoard
             character= {this.props.character}
+            deselectCharacter = {this.props.deselectCharacter}
           />
         }
       </div>

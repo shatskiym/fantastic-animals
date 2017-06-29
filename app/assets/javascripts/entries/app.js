@@ -11375,8 +11375,7 @@ var Terrains = _react2.default.createClass({
                 changeSelectedTerrain: that.props.changeSelectedTerrain,
                 moveCharacter: that.props.moveCharacter,
                 selectCharacter: that.props.selectCharacter,
-                charSelected: that.props.modes.characterChoosenMode,
-                deselectCharacter: that.props.deselectCharacter });
+                charSelected: that.props.modes.characterChoosenMode });
             } else {
               return _react2.default.createElement(TerrainContainer, {
                 tType: terr.element,
@@ -11387,8 +11386,7 @@ var Terrains = _react2.default.createClass({
                 changeSelectedTerrain: that.props.changeSelectedTerrain,
                 moveCharacter: that.props.moveCharacter,
                 selectCharacter: that.props.selectCharacter,
-                charSelected: that.props.modes.characterChoosenMode,
-                deselectCharacter: that.props.deselectCharacter });
+                charSelected: that.props.modes.characterChoosenMode });
             }
           } else {
             return _react2.default.createElement(TerrainContainer, {
@@ -11404,8 +11402,7 @@ var Terrains = _react2.default.createClass({
         }),
         !this.props.modes.setMeetingFieldsMode && _react2.default.createElement(_character.CharacterContainer, {
           character: this.props.character,
-          selectCharacter: this.props.selectCharacter,
-          deselectCharacter: this.props.deselectCharacter
+          selectCharacter: this.props.selectCharacter
         })
       )
     );
@@ -11423,7 +11420,6 @@ var TerrainContainer = _react2.default.createClass({
     }
     if (this.props.charSelected && this.props.moveCharacter) {
       this.props.moveCharacter(this.props.styleProps, this.props.index);
-      this.props.deselectCharacter();
     }
   },
   render: function render() {
@@ -23673,8 +23669,7 @@ var BoardContainer = _react2.default.createClass({
         field: this.props.field,
         character: this.props.character,
         moveCharacter: this.props.moveCharacter,
-        selectCharacter: this.props.selectCharacter,
-        deselectCharacter: this.props.deselectCharacter }),
+        selectCharacter: this.props.selectCharacter }),
       _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
@@ -23683,7 +23678,8 @@ var BoardContainer = _react2.default.createClass({
         searchAnimalsButton: this.props.pressSearchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,
         finishSetMeetingMode: this.props.finishSetMeetingMode,
-        character: this.props.character })
+        character: this.props.character,
+        deselectCharacter: this.props.deselectCharacter })
     );
   }
 });
@@ -25396,7 +25392,12 @@ var CharacterInfoPartOfBoard = _react2.default.createClass({
       }),
       _react2.default.createElement(_helpers.LabelH4, {
         text: 'Character is on ' + this.props.character.terrain + ' position.'
-      })
+      }),
+      _react2.default.createElement(
+        'button',
+        { className: 'btn btn-primary', onClick: this.props.deselectCharacter },
+        'Deselect Character'
+      )
     );
   }
 });
@@ -25418,7 +25419,8 @@ var InfoBoard = _react2.default.createClass({
         setMeetingFields: this.props.finishSetMeetingMode
       }),
       this.props.modes.characterChoosenMode && _react2.default.createElement(CharacterInfoPartOfBoard, {
-        character: this.props.character
+        character: this.props.character,
+        deselectCharacter: this.props.deselectCharacter
       })
     );
   }

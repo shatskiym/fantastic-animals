@@ -16,8 +16,7 @@ const BoardContainer = React.createClass({
          field={this.props.field}
          character={this.props.character}
          moveCharacter={this.props.moveCharacter}
-         selectCharacter={this.props.selectCharacter}
-         deselectCharacter = {this.props.deselectCharacter}/>
+         selectCharacter={this.props.selectCharacter}/>
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
@@ -26,7 +25,8 @@ const BoardContainer = React.createClass({
          searchAnimalsButton={this.props.pressSearchAnimalsButton}
          resetDiceResult={this.props.resetDiceResult}
          finishSetMeetingMode={this.props.finishSetMeetingMode}
-         character={this.props.character}/>
+         character={this.props.character}
+         deselectCharacter = {this.props.deselectCharacter}/>
       </div>
     )
   }
