@@ -94,10 +94,10 @@ export const SearchAnimalsButton = React.createClass({
   }
 });
 
-const InfoBoard = React.createClass({
-  render: function() {
+const TerrainInfoPartOfBoard = React.createClass({
+  render: function(){
     return (
-      <div className='info-board-container'>
+      <div className='terrain-info-container'>
         <ChosenField
           type = {this.props.type}
           diff = {this.props.diff}
@@ -123,8 +123,26 @@ const InfoBoard = React.createClass({
           this.props.setMode &&
           <ConfigureFieldsButton
             setMode = {this.props.setMode}
-            setMeetingFields = {this.props.finishSetMeetingMode}/>
+            setMeetingFields = {this.props.setMeetingFields}/>
         }
+      </div>
+    )
+  }
+});
+
+const InfoBoard = React.createClass({
+  render: function() {
+    return (
+      <div className='info-board-container'>
+        <TerrainInfoPartOfBoard
+          type= {this.props.type}
+          diff= {this.props.diff}
+          setMode= {this.props.setMode}
+          animalsSearch = {this.props.animalsSearch}
+          searchAnimalsButton = {this.props.searchAnimalsButton}
+          resetDiceResult={this.props.resetDiceResult}
+          setMeetingFields = {this.props.finishSetMeetingMode}
+        />
       </div>
     )
   }

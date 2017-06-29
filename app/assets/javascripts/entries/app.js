@@ -25327,13 +25327,13 @@ var SearchAnimalsButton = exports.SearchAnimalsButton = _react2.default.createCl
   }
 });
 
-var InfoBoard = _react2.default.createClass({
-  displayName: 'InfoBoard',
+var TerrainInfoPartOfBoard = _react2.default.createClass({
+  displayName: 'TerrainInfoPartOfBoard',
 
   render: function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'info-board-container' },
+      { className: 'terrain-info-container' },
       _react2.default.createElement(ChosenField, {
         type: this.props.type,
         diff: this.props.diff,
@@ -25351,7 +25351,27 @@ var InfoBoard = _react2.default.createClass({
       }),
       this.props.setMode && _react2.default.createElement(ConfigureFieldsButton, {
         setMode: this.props.setMode,
-        setMeetingFields: this.props.finishSetMeetingMode })
+        setMeetingFields: this.props.setMeetingFields })
+    );
+  }
+});
+
+var InfoBoard = _react2.default.createClass({
+  displayName: 'InfoBoard',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'info-board-container' },
+      _react2.default.createElement(TerrainInfoPartOfBoard, {
+        type: this.props.type,
+        diff: this.props.diff,
+        setMode: this.props.setMode,
+        animalsSearch: this.props.animalsSearch,
+        searchAnimalsButton: this.props.searchAnimalsButton,
+        resetDiceResult: this.props.resetDiceResult,
+        setMeetingFields: this.props.finishSetMeetingMode
+      })
     );
   }
 });
