@@ -23394,7 +23394,7 @@ module.exports = ReactDOMInvalidARIAHook;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.InfoBoard = exports.Terrains = undefined;
+exports.TerrainContainer = exports.Terrains = undefined;
 
 var _react = __webpack_require__(24);
 
@@ -23542,152 +23542,8 @@ var TerrainCheckbox = _react2.default.createClass({
   }
 });
 
-var ChosenField = _react2.default.createClass({
-  displayName: 'ChosenField',
-
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      { className: 'chosen-field-container' },
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: 'Chosen field'
-      }),
-      _react2.default.createElement(
-        'div',
-        { className: 'info-terrain-container' },
-        _react2.default.createElement(TerrainContainer, {
-          tType: this.props.type,
-          tDiff: this.props.diff,
-          setMode: this.props.setMode
-        })
-      )
-    );
-  }
-});
-
-var FieldInfo = _react2.default.createClass({
-  displayName: 'FieldInfo',
-
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: 'Info about field'
-      }),
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: "Terrain type: " + this.props.type
-      }),
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: "Terrain difficult: " + this.props.diff
-      })
-    );
-  }
-});
-
-var SearchAnimalsResult = _react2.default.createClass({
-  displayName: 'SearchAnimalsResult',
-
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: "Dice result: " + this.props.diceRes
-      }),
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: "Search result: " + this.props.searchRes
-      }),
-      _react2.default.createElement(_helpers.LabelH4, {
-        text: "Animal is " + (this.props.animalFinded ? 'finded!' : 'not finded.')
-      })
-    );
-  }
-});
-
-var SearchAnimalsContainer = _react2.default.createClass({
-  displayName: 'SearchAnimalsContainer',
-
-  buttonPress: function buttonPress(diceRes, searchRes) {
-    var diceRes = Math.floor(Math.random() * 6) + 1;
-    var searchRes = diceRes - this.props.diff;
-    this.props.searchAnimalsButton(diceRes, searchRes);
-  },
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(SearchAnimalsButton, {
-        diff: this.props.diff,
-        searchAnimals: this.buttonPress
-      }),
-      this.props.animalsSearch.diceRolled && _react2.default.createElement(SearchAnimalsResult, {
-        diceRes: this.props.animalsSearch.diceResult,
-        searchRes: this.props.animalsSearch.searchResult,
-        animalFinded: this.props.animalsSearch.searchResult >= 2
-      })
-    );
-  }
-});
-
-var SearchAnimalsButton = _react2.default.createClass({
-  displayName: 'SearchAnimalsButton',
-
-  render: function render() {
-    return _react2.default.createElement(
-      'button',
-      { className: 'btn btn-primary', onClick: this.props.searchAnimals },
-      'Searh Animals'
-    );
-  }
-});
-
-var InfoBoard = _react2.default.createClass({
-  displayName: 'InfoBoard',
-
-  render: function render() {
-    return _react2.default.createElement(
-      'div',
-      { className: 'info-board-container' },
-      _react2.default.createElement(ChosenField, {
-        type: this.props.type,
-        diff: this.props.diff,
-        setMode: this.props.setMode
-      }),
-      this.props.diff && _react2.default.createElement(FieldInfo, {
-        type: this.props.type,
-        diff: this.props.diff
-      }),
-      this.props.diff && !this.props.setMode && _react2.default.createElement(SearchAnimalsContainer, {
-        diff: this.props.diff,
-        animalsSearch: this.props.animalsSearch,
-        searchAnimalsButton: this.props.searchAnimalsButton,
-        resetDiceResult: this.props.resetDiceResult
-      }),
-      this.props.setMode && _react2.default.createElement(ConfigureFieldsButton, {
-        setMode: this.props.setMode,
-        setMeetingFields: this.props.finishSetMeetingMode })
-    );
-  }
-});
-
-var ConfigureFieldsButton = _react2.default.createClass({
-  displayName: 'ConfigureFieldsButton',
-  render: function render() {
-    if (this.props.setMode) {
-      return _react2.default.createElement(
-        'button',
-        { className: 'btn btn-primary', onClick: this.props.setMeetingFields },
-        'Configure Fields'
-      );
-    } else {
-      return null;
-    }
-  }
-});
-
 exports.Terrains = Terrains;
-exports.InfoBoard = InfoBoard;
+exports.TerrainContainer = TerrainContainer;
 
 /***/ }),
 /* 199 */
@@ -25313,6 +25169,8 @@ var _reactRedux = __webpack_require__(86);
 
 var _terrains = __webpack_require__(198);
 
+var _info_board = __webpack_require__(234);
+
 var _helpers = __webpack_require__(232);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -25329,7 +25187,7 @@ var BoardContainer = _react2.default.createClass({
         meetFields: this.props.meetingFields,
         updateFields: this.props.updateSelectedFields,
         field: this.props.field }),
-      _react2.default.createElement(_terrains.InfoBoard, {
+      _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
         setMode: this.props.setMode,
@@ -25456,6 +25314,174 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
     }
   };
 })(Board);
+
+/***/ }),
+/* 234 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.InfoBoard = exports.SearchAnimalsButton = undefined;
+
+var _react = __webpack_require__(24);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _helpers = __webpack_require__(232);
+
+var _terrains = __webpack_require__(198);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ChosenField = _react2.default.createClass({
+  displayName: 'ChosenField',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'chosen-field-container' },
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: 'Chosen field'
+      }),
+      _react2.default.createElement(
+        'div',
+        { className: 'info-terrain-container' },
+        _react2.default.createElement(_terrains.TerrainContainer, {
+          tType: this.props.type,
+          tDiff: this.props.diff,
+          setMode: this.props.setMode
+        })
+      )
+    );
+  }
+});
+
+var FieldInfo = _react2.default.createClass({
+  displayName: 'FieldInfo',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: 'Info about field'
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Terrain type: " + this.props.type
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Terrain difficult: " + this.props.diff
+      })
+    );
+  }
+});
+
+var SearchAnimalsResult = _react2.default.createClass({
+  displayName: 'SearchAnimalsResult',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Dice result: " + this.props.diceRes
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Search result: " + this.props.searchRes
+      }),
+      _react2.default.createElement(_helpers.LabelH4, {
+        text: "Animal is " + (this.props.animalFinded ? 'finded!' : 'not finded.')
+      })
+    );
+  }
+});
+
+var SearchAnimalsContainer = _react2.default.createClass({
+  displayName: 'SearchAnimalsContainer',
+
+  buttonPress: function buttonPress(diceRes, searchRes) {
+    var diceRes = Math.floor(Math.random() * 6) + 1;
+    var searchRes = diceRes - this.props.diff;
+    this.props.searchAnimalsButton(diceRes, searchRes);
+  },
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(SearchAnimalsButton, {
+        diff: this.props.diff,
+        searchAnimals: this.buttonPress
+      }),
+      this.props.animalsSearch.diceRolled && _react2.default.createElement(SearchAnimalsResult, {
+        diceRes: this.props.animalsSearch.diceResult,
+        searchRes: this.props.animalsSearch.searchResult,
+        animalFinded: this.props.animalsSearch.searchResult >= 2
+      })
+    );
+  }
+});
+
+var SearchAnimalsButton = exports.SearchAnimalsButton = _react2.default.createClass({
+  displayName: 'SearchAnimalsButton',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'button',
+      { className: 'btn btn-primary', onClick: this.props.searchAnimals },
+      'Searh Animals'
+    );
+  }
+});
+
+var InfoBoard = _react2.default.createClass({
+  displayName: 'InfoBoard',
+
+  render: function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'info-board-container' },
+      _react2.default.createElement(ChosenField, {
+        type: this.props.type,
+        diff: this.props.diff,
+        setMode: this.props.setMode
+      }),
+      this.props.diff && _react2.default.createElement(FieldInfo, {
+        type: this.props.type,
+        diff: this.props.diff
+      }),
+      this.props.diff && !this.props.setMode && _react2.default.createElement(SearchAnimalsContainer, {
+        diff: this.props.diff,
+        animalsSearch: this.props.animalsSearch,
+        searchAnimalsButton: this.props.searchAnimalsButton,
+        resetDiceResult: this.props.resetDiceResult
+      }),
+      this.props.setMode && _react2.default.createElement(ConfigureFieldsButton, {
+        setMode: this.props.setMode,
+        setMeetingFields: this.props.finishSetMeetingMode })
+    );
+  }
+});
+
+var ConfigureFieldsButton = _react2.default.createClass({
+  displayName: 'ConfigureFieldsButton',
+  render: function render() {
+    if (this.props.setMode) {
+      return _react2.default.createElement(
+        'button',
+        { className: 'btn btn-primary', onClick: this.props.setMeetingFields },
+        'Configure Fields'
+      );
+    } else {
+      return null;
+    }
+  }
+});
+
+exports.InfoBoard = InfoBoard;
 
 /***/ })
 /******/ ]);

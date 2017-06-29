@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Terrains, InfoBoard } from './terrains.jsx'
+import { Terrains } from './terrains.jsx'
+import { InfoBoard } from './info_board.jsx'
 import { LabelH2 } from './helpers.jsx'
 
 const BoardContainer = React.createClass({
