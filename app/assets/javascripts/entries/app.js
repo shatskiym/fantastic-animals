@@ -11372,7 +11372,8 @@ var Terrains = _react2.default.createClass({
                 tDiff: terr.difficult,
                 index: val,
                 styleProps: terr.styleProps,
-                changeSelectedTerrain: that.props.changeSelectedTerrain });
+                changeSelectedTerrain: that.props.changeSelectedTerrain,
+                moveCharacter: that.props.moveCharacter });
             } else {
               return _react2.default.createElement(TerrainContainer, {
                 tType: terr.element,
@@ -11380,7 +11381,8 @@ var Terrains = _react2.default.createClass({
                 tDiff: '',
                 index: val,
                 styleProps: terr.styleProps,
-                changeSelectedTerrain: that.props.changeSelectedTerrain });
+                changeSelectedTerrain: that.props.changeSelectedTerrain,
+                moveCharacter: that.props.moveCharacter });
             }
           } else {
             return _react2.default.createElement(TerrainContainer, {
@@ -11391,7 +11393,8 @@ var Terrains = _react2.default.createClass({
               setMode: that.props.setMode,
               updateFields: that.props.updateFields,
               styleProps: terr.styleProps,
-              changeSelectedTerrain: that.props.changeSelectedTerrain });
+              changeSelectedTerrain: that.props.changeSelectedTerrain,
+              moveCharacter: that.props.moveCharacter });
           }
         }),
         _react2.default.createElement(_character.CharacterContainer, {
@@ -11407,13 +11410,11 @@ var Terrains = _react2.default.createClass({
 var TerrainContainer = _react2.default.createClass({
   displayName: 'TerrainContainer',
 
-  hexHeight: 100,
-  generalOffsetLeft: 30,
-  offsetLeft: 85,
   handleClick: function handleClick() {
     if (this.props.changeSelectedTerrain) {
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff);
     }
+    this.props.moveCharacter(this.props.styleProps, this.props.index);
   },
   render: function render() {
     return _react2.default.createElement(Terrain, {
@@ -23660,7 +23661,8 @@ var BoardContainer = _react2.default.createClass({
         meetFields: this.props.meetingFields,
         updateFields: this.props.updateSelectedFields,
         field: this.props.field,
-        character: this.props.character }),
+        character: this.props.character,
+        moveCharacter: this.props.moveCharacter }),
       _react2.default.createElement(_info_board.InfoBoard, {
         type: this.props.terrainForPreview.terrainType,
         diff: this.props.terrainForPreview.terrainDiff,
@@ -23742,7 +23744,8 @@ var Board = _react2.default.createClass({
         pressSearchAnimalsButton: this.props.pressSearchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,
         finishSetMeetingMode: this.props.finishSetMeetingMode,
-        character: this.props.character
+        character: this.props.character,
+        moveCharacter: this.props.moveCharacter
       })
     );
   }
@@ -23810,6 +23813,16 @@ exports.default = (0, _reactRedux.connect)(function mapStateToProps(state) {
       dispatch({
         type: 'CREATE_FIELD',
         payload: terrains
+      });
+    },
+
+    moveCharacter: function moveCharacter(styleProps, index) {
+      dispatch({
+        type: 'MOVE_CHARACTER',
+        payload: {
+          terrain: index,
+          styleProps: styleProps
+        }
       });
     }
   };

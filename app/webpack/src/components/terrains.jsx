@@ -22,7 +22,8 @@ const Terrains = React.createClass({
                           tDiff = {terr.difficult}
                           index = {val}
                           styleProps = {terr.styleProps}
-                          changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+                          changeSelectedTerrain = {that.props.changeSelectedTerrain}
+                          moveCharacter = {that.props.moveCharacter}/>;
                 } else {
                   return <TerrainContainer
                           tType = {terr.element}
@@ -30,7 +31,8 @@ const Terrains = React.createClass({
                           tDiff = ''
                           index = {val}
                           styleProps = {terr.styleProps}
-                          changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+                          changeSelectedTerrain = {that.props.changeSelectedTerrain}
+                          moveCharacter = {that.props.moveCharacter}/>;
                 }
               } else {
                 return <TerrainContainer
@@ -41,7 +43,8 @@ const Terrains = React.createClass({
                         setMode = {that.props.setMode}
                         updateFields = {that.props.updateFields}
                         styleProps = {terr.styleProps}
-                        changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
+                        changeSelectedTerrain = {that.props.changeSelectedTerrain}
+                        moveCharacter = {that.props.moveCharacter}/>;
               }
             })
           }
@@ -55,13 +58,11 @@ const Terrains = React.createClass({
 });
 
 const TerrainContainer = React.createClass({
-  hexHeight: 100,
-  generalOffsetLeft: 30,
-  offsetLeft: 85,
   handleClick: function() {
     if (this.props.changeSelectedTerrain){
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
+    this.props.moveCharacter(this.props.styleProps, this.props.index);
   },
   render: function() {
     return (

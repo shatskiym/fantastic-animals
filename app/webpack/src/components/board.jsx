@@ -14,7 +14,8 @@ const BoardContainer = React.createClass({
          meetFields={this.props.meetingFields}
          updateFields={this.props.updateSelectedFields}
          field={this.props.field}
-         character={this.props.character}/>
+         character={this.props.character}
+         moveCharacter={this.props.moveCharacter}/>
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
@@ -94,6 +95,7 @@ const Board = React.createClass({ //Main element
           resetDiceResult={this.props.resetDiceResult}
           finishSetMeetingMode={this.props.finishSetMeetingMode}
           character={this.props.character}
+          moveCharacter={this.props.moveCharacter}
         />
       </div>
     )
@@ -165,6 +167,16 @@ export default connect(
         dispatch({
           type: 'CREATE_FIELD',
           payload: terrains
+        })
+      },
+
+      moveCharacter: function(styleProps, index) {
+        dispatch({
+          type: 'MOVE_CHARACTER',
+          payload: {
+            terrain: index,
+            styleProps: styleProps
+          }
         })
       }
     }
