@@ -23427,6 +23427,7 @@ var Terrains = _react2.default.createClass({
                 key: val,
                 tDiff: terr.difficult,
                 index: val,
+                styleProps: terr.styleProps,
                 changeSelectedTerrain: that.props.changeSelectedTerrain });
             } else {
               return _react2.default.createElement(TerrainContainer, {
@@ -23434,6 +23435,7 @@ var Terrains = _react2.default.createClass({
                 key: val,
                 tDiff: '',
                 index: val,
+                styleProps: terr.styleProps,
                 changeSelectedTerrain: that.props.changeSelectedTerrain });
             }
           } else {
@@ -23444,6 +23446,7 @@ var Terrains = _react2.default.createClass({
               index: val,
               setMode: that.props.setMode,
               updateFields: that.props.updateFields,
+              styleProps: terr.styleProps,
               changeSelectedTerrain: that.props.changeSelectedTerrain });
           }
         })
@@ -23463,28 +23466,9 @@ var TerrainContainer = _react2.default.createClass({
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff);
     }
   },
-  topValue: function topValue() {
-    if (!this.props.index) {
-      return 0;
-    }
-    if (this.props.index % 10 > 4) {
-      return this.props.index % 5 * this.hexHeight + this.hexHeight / 2;
-    }
-    return this.props.index % 5 * this.hexHeight;
-  },
-  leftValue: function leftValue() {
-    if (!this.props.index || this.props.index == 0) {
-      return this.generalOffsetLeft;
-    }
-    return Math.floor(this.props.index / 5) * this.offsetLeft + this.generalOffsetLeft;
-  },
   render: function render() {
-    var styleProps = {
-      top: this.topValue(),
-      left: this.leftValue()
-    };
     return _react2.default.createElement(Terrain, {
-      styleProps: styleProps,
+      styleProps: this.props.styleProps,
       tType: this.props.tType,
       handleClick: this.handleClick,
       tDiff: this.props.tDiff,
@@ -24917,10 +24901,14 @@ var _field = __webpack_require__(231);
 
 var _field2 = _interopRequireDefault(_field);
 
+var _character = __webpack_require__(235);
+
+var _character2 = _interopRequireDefault(_character);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default, field: _field2.default
+  previewTerrain: _previewTerrain2.default, meetingFields: _meetingFields2.default, choosingMeetingFieldsMode: _setMeetingFieldsMode2.default, animalsSearch: _searchAnimals2.default, field: _field2.default, character: _character2.default
 });
 
 /***/ }),
@@ -25054,6 +25042,7 @@ function field() {
   var action = arguments[1];
 
   if (action.type === 'CREATE_FIELD') {
+    ;
     return action.payload;
   }
   return state;
@@ -25202,16 +25191,40 @@ var BoardContainer = _react2.default.createClass({
 var Board = _react2.default.createClass({
   displayName: 'Board',
   //Main element
+  hexHeight: 100,
+  generalOffsetLeft: 30,
+  offsetLeft: 85,
+  topValue: function topValue(index) {
+    if (index % 10 > 4) {
+      return index % 5 * this.hexHeight + this.hexHeight / 2;
+    }
+    return index % 5 * this.hexHeight;
+  },
+  leftValue: function leftValue(index) {
+    if (!index || index == 0) {
+      return this.generalOffsetLeft;
+    }
+    return Math.floor(index / 5) * this.offsetLeft + this.generalOffsetLeft;
+  },
   componentDidMount: function componentDidMount() {
     this.props.createField(this.createTerrainsArray());
   },
   createTerrainsArray: function createTerrainsArray() {
     var terrs = [];
-    var i = 0,
-        len = 55;
-    while (++i <= len) {
-      terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
-    }return terrs;
+    var i = -1,
+        len = 53;
+    while (i++ <= len) {
+      var terr = {};
+      var buffTerr = this.props.data[Math.floor(Math.random() * this.props.data.length)];
+      terr.element = buffTerr.element;
+      terr.difficult = buffTerr.difficult;
+      terr.styleProps = {
+        top: this.topValue(i),
+        left: this.leftValue(i)
+      };
+      terrs[i] = terr;
+    };
+    return terrs;
   },
   changeTerrainForPreview: function changeTerrainForPreview(type, diff) {
     this.props.changeTerrainForPreview(diff, type);
@@ -25351,6 +25364,7 @@ var ChosenField = _react2.default.createClass({
         'div',
         { className: 'info-terrain-container' },
         _react2.default.createElement(_terrains.TerrainContainer, {
+          styleProps: { top: 0, left: 0 },
           tType: this.props.type,
           tDiff: this.props.diff,
           setMode: this.props.setMode
@@ -25482,6 +25496,27 @@ var ConfigureFieldsButton = _react2.default.createClass({
 });
 
 exports.InfoBoard = InfoBoard;
+
+/***/ }),
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = character;
+function character() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var action = arguments[1];
+
+  if (action.type === 'MOVE_CHARACTER') {
+    return action.payload;
+  }
+  return state;
+}
 
 /***/ })
 /******/ ]);

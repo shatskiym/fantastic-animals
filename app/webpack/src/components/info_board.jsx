@@ -11,6 +11,7 @@ const ChosenField = React.createClass({
         />
         <div className='info-terrain-container'>
           <TerrainContainer
+            styleProps = {{top: 0, left: 0}}
             tType = {this.props.type}
             tDiff = {this.props.diff}
             setMode = {this.props.setMode}

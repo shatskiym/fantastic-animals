@@ -28,13 +28,38 @@ const BoardContainer = React.createClass({
 })
 
 const Board = React.createClass({ //Main element
+  hexHeight: 100,
+  generalOffsetLeft: 30,
+  offsetLeft: 85,
+  topValue: function(index) {
+    if (index % 10 > 4) {
+      return ((index % 5) * this.hexHeight + this.hexHeight / 2);
+    }
+    return ((index % 5) * this.hexHeight);
+  },
+  leftValue: function(index) {
+    if (!index || index == 0) {
+      return this.generalOffsetLeft;
+    }
+    return ((Math.floor(index / 5)) * this.offsetLeft + this.generalOffsetLeft);
+  },
   componentDidMount: function() {
     this.props.createField(this.createTerrainsArray());
   },
   createTerrainsArray: function() {
     var terrs = [];
-    var i = 0, len = 55;
-    while (++i <= len) terrs.push(this.props.data[Math.floor(Math.random() * this.props.data.length)]);
+    var i = -1, len = 53;
+    while (i++ <= len) {
+      var terr = {}
+      var buffTerr = this.props.data[Math.floor(Math.random() * this.props.data.length)]
+      terr.element = buffTerr.element;
+      terr.difficult = buffTerr.difficult;
+      terr.styleProps = {
+        top: this.topValue(i),
+        left: this.leftValue(i)
+      }
+      terrs[i] = terr;
+    };
     return terrs;
   },
   changeTerrainForPreview: function(type, diff) {

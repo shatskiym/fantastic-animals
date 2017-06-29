@@ -20,6 +20,7 @@ const Terrains = React.createClass({
                           key = {val}
                           tDiff = {terr.difficult}
                           index = {val}
+                          styleProps = {terr.styleProps}
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
                 } else {
                   return <TerrainContainer
@@ -27,6 +28,7 @@ const Terrains = React.createClass({
                           key = {val}
                           tDiff = ''
                           index = {val}
+                          styleProps = {terr.styleProps}
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
                 }
               } else {
@@ -37,6 +39,7 @@ const Terrains = React.createClass({
                         index = {val}
                         setMode = {that.props.setMode}
                         updateFields = {that.props.updateFields}
+                        styleProps = {terr.styleProps}
                         changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
               }
             })
@@ -56,27 +59,10 @@ const TerrainContainer = React.createClass({
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
   },
-  topValue: function() {
-    if (!this.props.index) {return 0;}
-    if (this.props.index % 10 > 4) {
-      return ((this.props.index % 5) * this.hexHeight + this.hexHeight / 2);
-    }
-    return ((this.props.index % 5) * this.hexHeight);
-  },
-  leftValue: function() {
-    if (!this.props.index || this.props.index == 0) {
-      return this.generalOffsetLeft;
-    }
-    return (Math.floor(this.props.index / 5)) * this.offsetLeft + this.generalOffsetLeft;
-  },
   render: function() {
-    const styleProps = {
-      top: this.topValue(),
-      left: this.leftValue()
-    };
     return (
       <Terrain
-        styleProps = {styleProps}
+        styleProps = {this.props.styleProps}
         tType = {this.props.tType}
         handleClick = {this.handleClick}
         tDiff = {this.props.tDiff}
