@@ -15,5 +15,11 @@ export default function modes (state = initState, action) {
       characterChoosenMode: true
     }
   }
+  else if (action.type === 'DISABLE_SELECT_CHARACTER_MODE') {
+    return {
+      ...state,
+      characterChoosenMode: false
+    }
+  }
   return state;
 }

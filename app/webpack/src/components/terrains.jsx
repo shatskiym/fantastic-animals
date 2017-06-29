@@ -14,7 +14,7 @@ const Terrains = React.createClass({
         <div className = 'terrains-container'>
           {
             this.props.field.map(function(terr,val) {
-              if (!that.props.setMode) {
+              if (!that.props.modes.setMeetingFieldsMode) {
                 if (that.props.meetFields.indexOf(val) > -1) {
                   return <TerrainContainer
                           tType = {terr.element}
@@ -23,7 +23,10 @@ const Terrains = React.createClass({
                           index = {val}
                           styleProps = {terr.styleProps}
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}
-                          moveCharacter = {that.props.moveCharacter}/>;
+                          moveCharacter = {that.props.moveCharacter}
+                          selectCharacter={that.props.selectCharacter}
+                          charSelected = {that.props.modes.characterChoosenMode}
+                          deselectCharacter = {that.props.deselectCharacter}/>;
                 } else {
                   return <TerrainContainer
                           tType = {terr.element}
@@ -32,7 +35,10 @@ const Terrains = React.createClass({
                           index = {val}
                           styleProps = {terr.styleProps}
                           changeSelectedTerrain = {that.props.changeSelectedTerrain}
-                          moveCharacter = {that.props.moveCharacter}/>;
+                          moveCharacter = {that.props.moveCharacter}
+                          selectCharacter={that.props.selectCharacter}
+                          charSelected = {that.props.modes.characterChoosenMode}
+                          deselectCharacter = {that.props.deselectCharacter}/>;
                 }
               } else {
                 return <TerrainContainer
@@ -40,17 +46,18 @@ const Terrains = React.createClass({
                         key = {val}
                         tDiff = {terr.difficult}
                         index = {val}
-                        setMode = {that.props.setMode}
+                        setMode = {that.props.modes.setMeetingFieldsMode}
                         updateFields = {that.props.updateFields}
                         styleProps = {terr.styleProps}
                         changeSelectedTerrain = {that.props.changeSelectedTerrain}/>;
               }
             })
           }
-          { !this.props.setMode &&
+          { !this.props.modes.setMeetingFieldsMode &&
             <CharacterContainer
               character = {this.props.character}
               selectCharacter = {this.props.selectCharacter}
+              deselectCharacter = {this.props.deselectCharacter}
             />
           }
         </div>
@@ -64,7 +71,10 @@ const TerrainContainer = React.createClass({
     if (this.props.changeSelectedTerrain){
       this.props.changeSelectedTerrain(this.props.tType, this.props.tDiff)
     }
-    this.props.moveCharacter && this.props.moveCharacter(this.props.styleProps, this.props.index);
+    if (this.props.charSelected && this.props.moveCharacter) {
+      this.props.moveCharacter(this.props.styleProps, this.props.index);
+      this.props.deselectCharacter();
+    }
   },
   render: function() {
     return (

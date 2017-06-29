@@ -10,17 +10,18 @@ const BoardContainer = React.createClass({
       <div className='board-container'>
         <Terrains
          changeSelectedTerrain={this.props.changeTerrainForPreview}
-         setMode={this.props.setMode}
+         modes={this.props.modes}
          meetFields={this.props.meetingFields}
          updateFields={this.props.updateSelectedFields}
          field={this.props.field}
          character={this.props.character}
          moveCharacter={this.props.moveCharacter}
-         selectCharacter={this.props.selectCharacter}/>
+         selectCharacter={this.props.selectCharacter}
+         deselectCharacter = {this.props.deselectCharacter}/>
         <InfoBoard
          type={this.props.terrainForPreview.terrainType}
          diff={this.props.terrainForPreview.terrainDiff}
-         setMode={this.props.setMode}
+         setMode={this.props.modes.setMeetingFieldsMode}
          animalsSearch={this.props.animalsSearch}
          searchAnimalsButton={this.props.pressSearchAnimalsButton}
          resetDiceResult={this.props.resetDiceResult}
@@ -86,7 +87,7 @@ const Board = React.createClass({ //Main element
           classes = 'field-title'/>
         <BoardContainer
           changeTerrainForPreview={this.changeTerrainForPreview}
-          setMode={this.props.modes.setMeetingFieldsMode}
+          modes={this.props.modes}
           meetingFields={this.props.meetingFields}
           updateSelectedFields={this.updateSelectedFields}
           field={this.props.field}
@@ -98,6 +99,7 @@ const Board = React.createClass({ //Main element
           character={this.props.character}
           moveCharacter={this.props.moveCharacter}
           selectCharacter = {this.props.selectCharacter}
+          deselectCharacter = {this.props.deselectCharacter}
         />
       </div>
     )
@@ -185,6 +187,12 @@ export default connect(
       selectCharacter: function() {
         dispatch({
           type: 'ENABLE_SELECT_CHARACTER_MODE'
+        })
+      },
+
+      deselectCharacter: function() {
+        dispatch({
+          type: 'DISABLE_SELECT_CHARACTER_MODE'
         })
       }
     }
