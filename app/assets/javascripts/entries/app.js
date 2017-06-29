@@ -25332,7 +25332,7 @@ var SearchAnimalsContainer = _react2.default.createClass({
     return _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(SearchAnimalsButton, {
+      this.props.number == this.props.character.terrain && _react2.default.createElement(SearchAnimalsButton, {
         diff: this.props.diff,
         searchAnimals: this.buttonPress
       }),
@@ -25376,6 +25376,7 @@ var TerrainInfoPartOfBoard = _react2.default.createClass({
       }),
       this.props.diff && !this.props.setMode && _react2.default.createElement(SearchAnimalsContainer, {
         diff: this.props.diff,
+        number: this.props.number,
         animalsSearch: this.props.animalsSearch,
         searchAnimalsButton: this.props.searchAnimalsButton,
         resetDiceResult: this.props.resetDiceResult,

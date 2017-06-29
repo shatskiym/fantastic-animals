@@ -70,11 +70,13 @@ const SearchAnimalsContainer = React.createClass({
   render:  function() {
     return (
       <div>
-
-        <SearchAnimalsButton
-          diff = {this.props.diff}
-          searchAnimals = {this.buttonPress}
-        />
+        {
+          (this.props.number == this.props.character.terrain) &&
+          <SearchAnimalsButton
+            diff = {this.props.diff}
+            searchAnimals = {this.buttonPress}
+          />
+        }
         {
           this.props.animalsSearch.diceRolled &&
             <SearchAnimalsResult
@@ -119,6 +121,7 @@ const TerrainInfoPartOfBoard = React.createClass({
           (this.props.diff && !this.props.setMode) &&
           <SearchAnimalsContainer
             diff = {this.props.diff}
+            number = {this.props.number}
             animalsSearch = {this.props.animalsSearch}
             searchAnimalsButton = {this.props.searchAnimalsButton}
             resetDiceResult={this.props.resetDiceResult}
